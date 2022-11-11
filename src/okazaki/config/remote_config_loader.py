@@ -45,7 +45,7 @@ class RemoteConfigLoader:
 
         try:
             content = repo.get_contents(self._file_path)
-        except Exception as e:
+        except Exception:
             return None
 
         return content.decoded_content.decode()

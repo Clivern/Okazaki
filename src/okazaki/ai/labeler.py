@@ -29,7 +29,15 @@ from .langchain import Client as LangchainClient
 class Labeler:
 
     @staticmethod
-    def label(openai_api_key, title, body, labels=[], model_name="gpt-4o-mini", temperature=0, callbacks=[]):
+    def label(
+        openai_api_key,
+        title,
+        body,
+        labels=[],
+        model_name="gpt-4o-mini",
+        temperature=0,
+        callbacks=[],
+    ):
         """
         Label a GitHub issue based on its title and body.
         """
@@ -48,7 +56,10 @@ class Labeler:
             model_name,
             temperature,
             [
-                ("system", "You are an AI assistant that labels GitHub issues accurately."),
+                (
+                    "system",
+                    "You are an AI assistant that labels GitHub issues accurately.",
+                ),
                 ("user", prompt),
             ],
             callbacks,
@@ -56,4 +67,4 @@ class Labeler:
 
         response = chain.invoke({"title": title, "body": body})
 
-        return [label.strip() for label in response.split(',')]
+        return [label.strip() for label in response.split(",")]

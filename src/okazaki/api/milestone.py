@@ -35,24 +35,21 @@ class Milestone:
         """
         self._app = app
 
-    def create_milestone(self, repo, title, state='open', description=None, due_on=None):
+    def create_milestone(
+        self, repo, title, state="open", description=None, due_on=None
+    ):
         """
         Creates a new milestone in the specified repository.
         """
         return self._get_repo(repo).create_milestone(
-            title,
-            state=state,
-            description=description,
-            due_on=due_on
+            title, state=state, description=description, due_on=due_on
         )
 
-    def get_milestones(self, repo, state='open'):
+    def get_milestones(self, repo, state="open"):
         """
         Retrieves milestones from the specified repository.
         """
-        return self._get_repo(repo).get_milestones(
-            state=state
-        )
+        return self._get_repo(repo).get_milestones(state=state)
 
     def _get_repo(self, repo):
         """

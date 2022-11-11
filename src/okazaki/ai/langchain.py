@@ -31,7 +31,13 @@ from langchain_core.output_parsers import StrOutputParser
 class Client:
 
     @staticmethod
-    def create_chat_chain(openai_api_key, model_name="gpt-4o-mini", temperature=0, prompt_template=None, callbacks=[]):
+    def create_chat_chain(
+        openai_api_key,
+        model_name="gpt-4o-mini",
+        temperature=0,
+        prompt_template=None,
+        callbacks=[],
+    ):
         """
         Create a chat chain using the specified language model and parameters.
         """
@@ -41,7 +47,7 @@ class Client:
             openai_api_key=openai_api_key,
             model_name=model_name,
             temperature=temperature,
-            callbacks=callbacks
+            callbacks=callbacks,
         )
 
         chain = prompt | llm | StrOutputParser()

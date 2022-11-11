@@ -31,7 +31,7 @@ from typing import Optional, Literal
 class LabelRule:
 
     name: str
-    state: Literal['present', 'absent', 'update']
+    state: Literal["present", "absent", "update"]
     title: str
     description: Optional[str] = None
     color: Optional[str] = None
@@ -40,29 +40,40 @@ class LabelRule:
     new_description: Optional[str] = None
 
     def __post_init__(self):
-        if self.state == 'present':
+        if self.state == "present":
             if not self.description or not self.color:
-                raise ValueError("For 'present' state, description and color are required.")
-        elif self.state == 'update':
+                raise ValueError(
+                    "For 'present' state, description and color are required."
+                )
+        elif self.state == "update":
             if not any([self.new_title, self.new_color, self.new_description]):
-                raise ValueError("For 'update' state, at least one of new_title, new_color, or new_description must be provided.")
-        elif self.state == 'absent':
-            if any([self.description, self.color, self.new_title, self.new_color, self.new_description]):
-                raise ValueError("For 'absent' state, only name and title should be provided.")
+                raise ValueError(
+                    "For 'update' state, at least one of new_title, new_color, or new_description must be provided."
+                )
+        elif self.state == "absent":
+            if any(
+                [
+                    self.description,
+                    self.color,
+                    self.new_title,
+                    self.new_color,
+                    self.new_description,
+                ]
+            ):
+                raise ValueError(
+                    "For 'absent' state, only name and title should be provided."
+                )
 
     def to_dict(self):
         result = {
             "name": self.name,
-            "label": {
-                "state": self.state,
-                "title": self.title
-            }
+            "label": {"state": self.state, "title": self.title},
         }
 
-        if self.state == 'present':
+        if self.state == "present":
             result["label"]["description"] = self.description
             result["label"]["color"] = self.color
-        elif self.state == 'update':
+        elif self.state == "update":
             if self.new_title:
                 result["label"]["new_title"] = self.new_title
             if self.new_color:

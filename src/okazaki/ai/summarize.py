@@ -29,7 +29,9 @@ from .langchain import Client as LangchainClient
 class Summarize:
 
     @staticmethod
-    def summarize(openai_api_key, text, model_name="gpt-4o-mini", temperature=0, callbacks=[]):
+    def summarize(
+        openai_api_key, text, model_name="gpt-4o-mini", temperature=0, callbacks=[]
+    ):
         """
         Summarize the given text using a language model.
         """

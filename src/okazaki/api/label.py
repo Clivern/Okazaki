@@ -58,12 +58,17 @@ class Label:
         Create a new label in the specified repository.
         """
         return self._get_repo(repo).create_label(
-            name=name,
-            color=color,
-            description=description
+            name=name, color=color, description=description
         )
 
-    def update_label(self, repo, old_name, new_name, new_color="eb4d4b", new_description=GithubObject.NotSet):
+    def update_label(
+        self,
+        repo,
+        old_name,
+        new_name,
+        new_color="eb4d4b",
+        new_description=GithubObject.NotSet,
+    ):
         """
         Update an existing label.
         """
@@ -88,4 +93,3 @@ class Label:
         Helper method to get a repository object from the GitHub client.
         """
         return self._app.get_client().get_repo(repo)
-

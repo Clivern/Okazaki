@@ -54,7 +54,7 @@ class Issue:
         body,
         assignees=GithubObject.NotSet,
         labels=GithubObject.NotSet,
-        milestone=GithubObject.NotSet
+        milestone=GithubObject.NotSet,
     ):
         """
         Creates a new issue in the specified repository.
@@ -64,7 +64,7 @@ class Issue:
             body=body,
             assignees=assignees,
             labels=labels,
-            milestone=milestone
+            milestone=milestone,
         )
 
     def get_labels(self, repo, labels=[]):
@@ -85,9 +85,11 @@ class Issue:
         issue = self.get_issue(repo, number)
 
         if issue is not None:
-            issue.edit(state='closed')
+            issue.edit(state="closed")
         else:
-            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
+            raise NotFound(
+                f"Repository '{repo}' Issue with number '{number}' not found"
+            )
 
     def reopen_issue(self, repo, number):
         """
@@ -96,9 +98,11 @@ class Issue:
         issue = self.get_issue(repo, number)
 
         if issue is not None:
-            issue.edit(state='open')
+            issue.edit(state="open")
         else:
-            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
+            raise NotFound(
+                f"Repository '{repo}' Issue with number '{number}' not found"
+            )
 
     def edit_issue(
         self,
@@ -109,7 +113,7 @@ class Issue:
         assignees=GithubObject.NotSet,
         labels=GithubObject.NotSet,
         milestone=GithubObject.NotSet,
-        state=GithubObject.NotSet
+        state=GithubObject.NotSet,
     ):
         """
         Edits an existing issue.
@@ -123,10 +127,12 @@ class Issue:
                 assignees=assignees,
                 labels=labels,
                 milestone=milestone,
-                state=state
+                state=state,
             )
         else:
-            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
+            raise NotFound(
+                f"Repository '{repo}' Issue with number '{number}' not found"
+            )
 
     def add_comment(self, repo, number, body):
         """
@@ -137,7 +143,9 @@ class Issue:
         if issue is not None:
             return issue.create_comment(body)
         else:
-            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
+            raise NotFound(
+                f"Repository '{repo}' Issue with number '{number}' not found"
+            )
 
     def get_comments(self, repo, number):
         """
@@ -148,7 +156,9 @@ class Issue:
         if issue is not None:
             return issue.get_comments()
         else:
-            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
+            raise NotFound(
+                f"Repository '{repo}' Issue with number '{number}' not found"
+            )
 
     def add_labels(self, repo, number, labels):
         """
@@ -159,7 +169,9 @@ class Issue:
         if issue is not None:
             return issue.add_to_labels(*labels)
         else:
-            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
+            raise NotFound(
+                f"Repository '{repo}' Issue with number '{number}' not found"
+            )
 
     def remove_label(self, repo, number, label):
         """
@@ -170,7 +182,9 @@ class Issue:
         if issue is not None:
             return issue.remove_from_labels(label)
         else:
-            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
+            raise NotFound(
+                f"Repository '{repo}' Issue with number '{number}' not found"
+            )
 
     def get_events(self, repo, number):
         """
@@ -181,20 +195,21 @@ class Issue:
         if issue is not None:
             return issue.get_events()
         else:
-            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
+            raise NotFound(
+                f"Repository '{repo}' Issue with number '{number}' not found"
+            )
 
-    def create_milestone(self, repo, title, state='open', description=None, due_on=None):
+    def create_milestone(
+        self, repo, title, state="open", description=None, due_on=None
+    ):
         """
         Creates a new milestone in the specified repository.
         """
         return self._get_repo(repo).create_milestone(
-            title,
-            state=state,
-            description=description,
-            due_on=due_on
+            title, state=state, description=description, due_on=due_on
         )
 
-    def get_milestones(self, repo, state='open'):
+    def get_milestones(self, repo, state="open"):
         """
         Retrieves milestones from the specified repository.
         """
@@ -211,4 +226,3 @@ class Issue:
         Helper method to get a repository object from the GitHub client.
         """
         return self._app.get_client().get_repo(repo)
-

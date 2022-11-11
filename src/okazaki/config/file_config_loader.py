@@ -28,7 +28,8 @@ import yaml
 
 class FileConfigLoader:
     """
-    The FileConfigLoader class provides methods to load configuration data from a YAML file.
+    The FileConfigLoader class provides methods to load configuration
+    data from a YAML file.
     """
 
     def __init__(self, file_path):
@@ -41,5 +42,5 @@ class FileConfigLoader:
         """
         Reads and parses the YAML configuration file.
         """
-        with open(self._file_path, 'r') as file:
+        with open(self._file_path, "r") as file:
             return yaml.safe_load(file)

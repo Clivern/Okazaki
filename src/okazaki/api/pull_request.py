@@ -48,8 +48,7 @@ class PullRequest:
         """
         source_obj = self._get_repo(repo).get_branch(source_branch)
         return self._get_repo(repo).create_git_ref(
-            ref=f'refs/heads/{new_branch}',
-            sha=source_obj.commit.sha
+            ref=f"refs/heads/{new_branch}", sha=source_obj.commit.sha
         )
 
     def delete_branch(self, repo, branch_name):
@@ -64,10 +63,7 @@ class PullRequest:
         Creates a new commit in the specified repository and branch.
         """
         return self._get_repo(repo).create_file(
-            path=file_path,
-            message=commit_message,
-            content=file_content,
-            branch=branch
+            path=file_path, message=commit_message, content=file_content, branch=branch
         )
 
     def open_pr(self, repo, title, body, base_branch, head_branch):
@@ -75,10 +71,7 @@ class PullRequest:
         Opens a new pull request in the specified repository.
         """
         return self._get_repo(repo).create_pull(
-            title=title,
-            body=body,
-            head=head_branch,
-            base=base_branch
+            title=title, body=body, head=head_branch, base=base_branch
         )
 
     def _get_repo(self, repo):

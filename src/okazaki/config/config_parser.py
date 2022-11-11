@@ -29,6 +29,7 @@ from okazaki.util import Logger
 from .label_rule import LabelRule
 from .issue_rule import IssueRule
 from .pull_request_rule import PullRequestRule
+from typing import List
 
 
 class ConfigParser:
@@ -60,7 +61,7 @@ class ConfigParser:
             elif isinstance(obj, list):
                 return [replace_data_references(item) for item in obj]
 
-            elif isinstance(obj, str) and obj.startswith('${var.'):
+            elif isinstance(obj, str) and obj.startswith("${var."):
                 # Remove '${var.' prefix and '}' suffix
                 item_key = obj[6:-1]
                 return data.get(item_key, obj)
@@ -74,19 +75,19 @@ class ConfigParser:
         """
         Extract label rules from the configuration.
         """
-        rules = self._config.get('rules', [])
+        rules = self._config.get("rules", [])
 
         for rule in rules:
-            if 'label' in rule:
+            if "label" in rule:
                 label_rule = LabelRule(
-                    name=rule['name'],
-                    state=rule['label']['state'],
-                    title=rule['label']['title'],
-                    description=rule['label'].get('description'),
-                    color=rule['label'].get('color'),
-                    new_title=rule['label'].get('new_title'),
-                    new_color=rule['label'].get('new_color'),
-                    new_description=rule['label'].get('new_description')
+                    name=rule["name"],
+                    state=rule["label"]["state"],
+                    title=rule["label"]["title"],
+                    description=rule["label"].get("description"),
+                    color=rule["label"].get("color"),
+                    new_title=rule["label"].get("new_title"),
+                    new_color=rule["label"].get("new_color"),
+                    new_description=rule["label"].get("new_description"),
                 )
 
                 self._label_rules.append(label_rule)

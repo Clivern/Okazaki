@@ -35,7 +35,7 @@ class Client:
         qdrant_url,
         qdrant_api_key,
         open_api_key,
-        open_api_model="text-embedding-3-small"
+        open_api_model="text-embedding-3-small",
     ):
         self.qdrant_client = QdrantClient(
             url=qdrant_url,
@@ -53,14 +53,10 @@ class Client:
     def info(self):
         return self.qdrant_client.info()
 
-    def create_collection(self, name, size = 1536):
+    def create_collection(self, name, size=1536):
         try:
             self.qdrant_client.create_collection(
-                name,
-                vectors_config=VectorParams(
-                    size=size,
-                    distance=Distance.COSINE
-                )
+                name, vectors_config=VectorParams(size=size, distance=Distance.COSINE)
             )
         except Exception as e:
             raise Exception(f"Error creating collection: {e}")
@@ -70,32 +66,32 @@ class Client:
 
         for document in documents:
             payload = document.metadata
-            payload['text'] = document.text
+            payload["text"] = document.text
 
             try:
                 result = self.open_api_client.embeddings.create(
-                    input=document.text,
-                    model=self.open_api_model
+                    input=document.text, model=self.open_api_model
                 )
             except Exception as e:
-                raise Exception(f"Error creating embedding for document {document.id}: {e}")
+                raise Exception(
+                    f"Error creating embedding for document {document.id}: {e}"
+                )
 
-            points.append(PointStruct(
-                id=document.id,
-                vector=result.data[0].embedding,
-                payload=payload
-            ))
+            points.append(
+                PointStruct(
+                    id=document.id, vector=result.data[0].embedding, payload=payload
+                )
+            )
 
         try:
             self.qdrant_client.upsert(collection, points)
         except Exception as e:
             raise Exception(f"Error inserting documents into collection: {e}")
 
-    def search(self, collection, text, filters = {}, limit = 10):
+    def search(self, collection, text, filters={}, limit=10):
         try:
             result = self.open_api_client.embeddings.create(
-                input=text,
-                model=self.open_api_model
+                input=text, model=self.open_api_model
             )
         except Exception as e:
             raise Exception(f"Error creating embedding for search query: {e}")
@@ -103,12 +99,14 @@ class Client:
         must = []
 
         for key, value in filters.items():
-            must.append(models.FieldCondition(
-                key=key,
-                match=models.MatchValue(
-                    value=value,
-                ),
-            ))
+            must.append(
+                models.FieldCondition(
+                    key=key,
+                    match=models.MatchValue(
+                        value=value,
+                    ),
+                )
+            )
 
         try:
             if len(must) > 0:
@@ -117,13 +115,13 @@ class Client:
                     query_vector=result.data[0].embedding,
                     query_filter=models.Filter(must=must),
                     with_payload=True,
-                    limit=limit
+                    limit=limit,
                 )
             else:
                 return self.qdrant_client.search(
                     collection_name=collection,
                     query_vector=result.data[0].embedding,
-                    limit=limit
+                    limit=limit,
                 )
         except Exception as e:
             raise Exception(f"Error searching collection: {e}")
