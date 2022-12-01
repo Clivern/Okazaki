@@ -21,4 +21,4 @@ Okazaki
 Note
 ====
 
-This project is Read Only and a part of Hornbeam Core.
+This Project is Read Only and a Part of Hornbeam Core.

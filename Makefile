@@ -14,10 +14,8 @@ help: Makefile
 ## config: Install needed dependencies.
 .PHONY: config
 config:
-	$(pip) install twine
-	$(pip) install wheel
-	$(pip) install tox
-	$(pip) install setuptools-scm
+	$(pip) install --upgrade pip
+	$(pip) install -r requirements.test.txt
 
 
 ## test: Run test case.
