@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from okazaki.api.client import Client
 
+class PullRequest():
 
-class PullRequest(Client):
-	pass
+    def __init__(self, app):
+        self._app = app
