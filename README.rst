@@ -1,3 +1,7 @@
+.. image:: https://images.unsplash.com/photo-1581059729226-c493d3086748
+  :width: 700
+  :alt: Alternative text
+
 .. image:: https://img.shields.io/pypi/v/Okazaki.svg
     :alt: PyPI-Server
     :target: https://pypi.org/project/Okazaki/
