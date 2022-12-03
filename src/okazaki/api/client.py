@@ -49,9 +49,7 @@ class Client():
     def is_token_expired(self, expire_at, drift_in_minutes=10):
         expire_at_dt = parser.isoparse(expire_at)
 
-        now = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
-            minutes=drift_in_minutes
-        )
+        now = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(minutes=drift_in_minutes)
 
         return now > expire_at_dt
 
@@ -63,6 +61,7 @@ class Client():
             request = requests.get(url, headers=headers)
 
             if self._is_success(request.status_code):
+
                 self.logger.info("GET request to {} succeeded".format(url))
 
                 return self._to_obj(request.text)
@@ -87,6 +86,7 @@ class Client():
             request = requests.post(url, headers=headers, data=data)
 
             if self._is_success(request.status_code):
+
                 self.logger.info("POST request to {} succeeded".format(url))
 
                 return self._to_obj(request.text)
@@ -111,6 +111,7 @@ class Client():
             request = requests.put(url, headers=headers, data=data)
 
             if self._is_success(request.status_code):
+
                 self.logger.info("PUT request to {} succeeded".format(url))
 
                 return self._to_obj(request.text)
@@ -135,6 +136,7 @@ class Client():
             request = requests.patch(url, headers=headers, data=data)
 
             if self._is_success(request.status_code):
+
                 self.logger.info("PATCH request to {} succeeded".format(url))
 
                 return self._to_obj(request.text)
@@ -158,9 +160,8 @@ class Client():
 
             request = requests.delete(url, headers=headers)
 
-            resp_time = (time.time() - start_time) * 1000
-
             if self._is_success(request.status_code):
+
                 self.logger.info("DELETE request to {} succeeded".format(url))
 
                 return self._to_obj("{}" if request.text == "" else request.text)
