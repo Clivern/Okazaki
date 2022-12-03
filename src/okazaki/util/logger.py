@@ -24,23 +24,11 @@ import logging
 
 
 class Logger:
-    """Logger Class
-
-    Attributes:
-        loggers: A dict of loggers
-    """
 
     loggers = {}
 
     def get_logger(self, name=__name__):
-        """Get logger instance by name
 
-        Args:
-            name: logger identifier
-
-        Returns:
-            An instance of logging.Logger
-        """
         if name in self.loggers:
             return self.loggers[name]
 
