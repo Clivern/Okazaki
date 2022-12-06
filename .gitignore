@@ -54,3 +54,5 @@ MANIFEST
 
 venv/
 build/
+
+examples/guide.py

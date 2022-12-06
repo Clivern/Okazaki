@@ -20,8 +20,152 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from github import GithubObject
+from okazaki.exception import NotFound
 
-class Issue():
+
+class Issue:
 
     def __init__(self, app):
         self._app = app
+
+    def get_issue(self, repo, number):
+        try:
+            return self._get_repo(repo).get_issue(
+                number=number
+            )
+        except Exception:
+            return None
+
+    def create_issue(
+        self,
+        repo,
+        title,
+        body,
+        assignees=GithubObject.NotSet,
+        labels=GithubObject.NotSet,
+        milestone=GithubObject.NotSet
+    ):
+        return self._get_repo(repo).create_issue(
+            title=title,
+            body=body,
+            assignees=assignees,
+            labels=labels,
+            milestone=milestone
+        )
+
+    def get_labels(self, repo, labels=[]):
+
+        result = []
+
+        for label in labels:
+            result.append(self._get_repo(repo).get_label(label))
+
+        return result if len(result) > 0 else None
+
+    def close_issue(self, repo, number):
+
+        issue = self.get_issue(repo, number)
+
+        if issue is not None:
+            issue.edit(state='closed')
+        else:
+            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+
+    def reopen_issue(self, repo, number):
+
+        issue = self.get_issue(repo, number)
+
+        if issue is not None:
+            issue.edit(state='open')
+        else:
+            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+
+    def edit_issue(
+        self,
+        repo,
+        number,
+        title,
+        body,
+        assignees=GithubObject.NotSet,
+        labels=GithubObject.NotSet,
+        milestone=GithubObject.NotSet,
+        state=GithubObject.NotSet
+    ):
+        issue = self.get_issue(repo, number)
+
+        if issue is not None:
+            issue.edit(
+                title=title,
+                body=body,
+                assignees=assignees,
+                labels=labels,
+                milestone=milestone,
+                state=state
+            )
+        else:
+            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+
+    def add_comment(self, repo, number, body):
+
+        issue = self.get_issue(repo, number)
+
+        if issue is not None:
+            return issue.create_comment(body)
+        else:
+            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+
+    def get_comments(self, repo, number):
+
+        issue = self.get_issue(repo, number)
+
+        if issue is not None:
+            return issue.get_comments()
+        else:
+            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+
+    def add_labels(self, repo, number, labels):
+
+        issue = self.get_issue(repo, number)
+
+        if issue is not None:
+            return issue.add_to_labels(*labels)
+        else:
+            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+
+    def remove_label(self, repo, number, label):
+
+        issue = self.get_issue(repo, number)
+
+        if issue is not None:
+            return issue.remove_from_labels(label)
+        else:
+            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+
+    def get_events(self, repo, number):
+
+        issue = self.get_issue(repo, number)
+
+        if issue is not None:
+            return issue.get_events()
+        else:
+            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+
+    def create_milestone(self, repo, title, state='open', description=None, due_on=None):
+        return self._get_repo(repo).create_milestone(
+            title,
+            state=state,
+            description=description,
+            due_on=due_on
+        )
+
+    def get_milestones(self, repo, state='open'):
+        return self._get_repo(repo).get_milestones(
+            state=state
+        )
+
+    def search_issues(self, query):
+        return self._app.get_client().search_issues(query)
+
+    def _get_repo(self, repo):
+        return self._app.get_client().get_repo(repo)

@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .client import Client
 from .app import App
 from .issue import Issue
+from .client import Client
 from .pull_request import PullRequest
 from .repository import Repository

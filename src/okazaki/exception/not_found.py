@@ -20,5 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .api_error import ApiError
-from .not_found import NotFound
+
+class NotFound(Exception):
+    pass
