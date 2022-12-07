@@ -25,7 +25,7 @@ rule:
   # Create a Label
   - name: create kind/issue label
     label:
-      state: exists
+      state: 1
       title: kind/issue
       description: application bugs
       color: red
@@ -34,7 +34,7 @@ rule:
   - name: remove kind/feature label
     label:
       state: missing
-      title: ${data.itemx}
+      title: ${var.itemx}
 
   # Update a Label
   - name: update kind/issue label into kind/bug
