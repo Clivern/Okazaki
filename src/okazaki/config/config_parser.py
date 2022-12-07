@@ -21,21 +21,24 @@
 # SOFTWARE.
 
 import yaml
+
+from okazaki.util import Logger
 from .label_rule import LabelRule
+from .issue_rule import IssueRule
+from .pull_request_rule import PullRequestRule
 
 
-class Parser:
-    def __init__(self, yaml_file, values_attr = "data"):
-        self._yaml_file = yaml_file
-        self._config = self.load_yaml()
+class ConfigParser:
+
+    def __init__(self, config, values_attr="data", logger=None):
+        self._config = config
         self._values_attr = values_attr
         self._label_rules: List[LabelRule] = []
+        self._issue_rules: List[IssueRule] = []
+        self._pull_request_rules: List[PullRequestRule] = []
+        self._logger = Logger().get_logger(__name__) if logger is None else logger
 
-    def load_yaml(self):
-        with open(self._yaml_file, 'r') as file:
-            return yaml.safe_load(file)
-
-    def pipeline_set_data_item(self):
+    def _pipeline_set_data_item(self):
         data = self._config.get(self._values_attr, {})
 
         def replace_data_references(obj):
@@ -54,10 +57,11 @@ class Parser:
 
         self._config = replace_data_references(self._config)
 
-    def extract_label_rules(self):
+    def _extract_label_rules(self):
         rules = self._config.get('rules', [])
 
         for rule in rules:
+            print(rule)
             if 'label' in rule:
                 label_rule = LabelRule(
                     name=rule['name'],
@@ -72,10 +76,18 @@ class Parser:
 
                 self._label_rules.append(label_rule)
 
+    def _extract_issue_rules(self):
+        pass
+
+    def _extract_pull_request_rules(self):
+        pass
+
     def process_config(self):
         pipelines = [
-            self.pipeline_set_data_item,
-            self.extract_label_rules,
+            self._pipeline_set_data_item,
+            self._extract_label_rules,
+            self._extract_issue_rules,
+            self._extract_pull_request_rules,
             # Add more pipeline methods here
         ]
 
@@ -90,3 +102,9 @@ class Parser:
 
     def get_label_rules(self):
         return self._label_rules
+
+    def get_issue_rules(self):
+        return self._issue_rules
+
+    def get_pull_request_rules(self):
+        return self._pull_request_rules

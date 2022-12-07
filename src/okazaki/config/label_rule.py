@@ -26,6 +26,7 @@ from typing import Optional, Literal
 
 @dataclass
 class LabelRule:
+
     name: str
     state: Literal['present', 'absent', 'update']
     title: str

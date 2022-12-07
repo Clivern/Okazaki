@@ -20,7 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .parser import Parser
 from .label_rule import LabelRule
 from .issue_rule import IssueRule
 from .pull_request_rule import PullRequestRule
+from .config_loader import FileConfigLoader
+from .config_parser import ConfigParser

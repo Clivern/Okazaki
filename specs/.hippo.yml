@@ -20,12 +20,12 @@ data:
     - hippo
 
 
-rule:
+rules:
   #---------------------- Label ----------------------------#
   # Create a Label
   - name: create kind/issue label
     label:
-      state: 1
+      state: present
       title: kind/issue
       description: application bugs
       color: red
@@ -33,17 +33,15 @@ rule:
   # Remove a Label
   - name: remove kind/feature label
     label:
-      state: missing
+      state: absent
       title: ${var.itemx}
 
   # Update a Label
   - name: update kind/issue label into kind/bug
     label:
       state: update
-      current_title: kind/issue
-      title: kind/bug
-      description: application bugs
-      color: blue
+      title: kind/issue
+      new_title: kind/bug
 
   #---------------------- Issue ----------------------------#
   - name: close issue older than 30 days by created_at

@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 from github import GithubObject
+
 from okazaki.exception import NotFound
 
 
