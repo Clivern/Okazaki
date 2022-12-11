@@ -29,7 +29,6 @@ from qdrant_client.models import PointStruct, VectorParams, Distance
 
 
 class Client:
-
     def __init__(
         self,
         qdrant_url,

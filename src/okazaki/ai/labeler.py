@@ -27,7 +27,6 @@ from .langchain import Client as LangchainClient
 
 
 class Labeler:
-
     @staticmethod
     def label(
         openai_api_key,

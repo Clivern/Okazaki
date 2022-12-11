@@ -41,7 +41,7 @@ class Repository:
         """
         try:
             content = self._get_repo(repo).get_contents(file_path)
-        except Exception as e:
+        except Exception:
             return None
         return content.decoded_content.decode()
 

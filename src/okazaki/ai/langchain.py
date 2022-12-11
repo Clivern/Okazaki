@@ -29,7 +29,6 @@ from langchain_core.output_parsers import StrOutputParser
 
 
 class Client:
-
     @staticmethod
     def create_chat_chain(
         openai_api_key,

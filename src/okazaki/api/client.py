@@ -37,7 +37,6 @@ from okazaki.exception import ApiError
 
 
 class Client:
-
     def __init__(
         self, file_system=None, logger=None, github_api="https://api.github.com"
     ):
@@ -81,7 +80,6 @@ class Client:
             request = requests.get(url, headers=headers)
 
             if self._is_success(request.status_code):
-
                 self.logger.info("GET request to {} succeeded".format(url))
 
                 return self._to_obj(request.text)
@@ -112,7 +110,6 @@ class Client:
             request = requests.post(url, headers=headers, data=data)
 
             if self._is_success(request.status_code):
-
                 self.logger.info("POST request to {} succeeded".format(url))
 
                 return self._to_obj(request.text)
@@ -143,7 +140,6 @@ class Client:
             request = requests.put(url, headers=headers, data=data)
 
             if self._is_success(request.status_code):
-
                 self.logger.info("PUT request to {} succeeded".format(url))
 
                 return self._to_obj(request.text)
@@ -174,7 +170,6 @@ class Client:
             request = requests.patch(url, headers=headers, data=data)
 
             if self._is_success(request.status_code):
-
                 self.logger.info("PATCH request to {} succeeded".format(url))
 
                 return self._to_obj(request.text)
@@ -205,7 +200,6 @@ class Client:
             request = requests.delete(url, headers=headers)
 
             if self._is_success(request.status_code):
-
                 self.logger.info("DELETE request to {} succeeded".format(url))
 
                 return self._to_obj("{}" if request.text == "" else request.text)

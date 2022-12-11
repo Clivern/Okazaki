@@ -28,5 +28,4 @@ from dataclasses import dataclass
 
 @dataclass
 class IssueRule:
-
     name: str
