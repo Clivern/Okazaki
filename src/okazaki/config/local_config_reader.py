@@ -23,29 +23,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import yaml
+import hashlib
 
-class RemoteConfigLoader:
+
+class LocalConfigReader:
     """
-    A class for loading configuration files from a remote repository.
+    A class for loading configuration files from a local path
     """
 
-    def __init__(self, app, repo, file_path):
+    def __init__(self, file_path):
         """
-        Initializes the RemoteConfigLoader instance.
+        Initializes the LocalConfigReader instance.
         """
-        self._app = app
-        self._repo = repo
         self._file_path = file_path
 
     def get_configs(self):
         """
-        Retrieves the content of the specified configuration file from the remote repository.
+        Retrieves the content of the specified configuration file from the local path.
         """
-        repo = self._app.get_client().get_repo(self._repo)
+        with open(self._file_path, "r") as file:
+            content = file.read()
 
-        try:
-            content = repo.get_contents(self._file_path)
-        except Exception:
-            return None
-
-        return content.decoded_content.decode()
+            return {
+                "configs": yaml.safe_load(content),
+                "checksum": hashlib.sha256(content.encode()).hexdigest(),
+            }

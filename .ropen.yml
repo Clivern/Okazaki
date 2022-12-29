@@ -1,0 +1,96 @@
+# MIT License
+#
+# Copyright (c) 2022 Clivern
+#
+# This software is licensed under the MIT License. The full text of the license
+# is provided below.
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+
+# Labels Configuration
+# This section defines the labels used for categorizing issues and pull requests in the repository.
+# Each label has a name, description, and color to visually distinguish it in the GitHub interface.
+labels:
+  # Bug Label
+  # Used for issues that report errors, crashes, or unexpected behavior in the project.
+  - name: bug
+    description: Something isn't working
+    color: fc2929  # Bright red color
+
+  # Enhancement Label
+  # Applied to issues or pull requests that suggest improvements or new features.
+  - name: enhancement
+    description: New feature or request
+    color: 84b6eb  # Light blue color
+
+  # Help Wanted Label
+  # Indicates issues where the project maintainers are seeking assistance from the community.
+  - name: help wanted
+    description: Extra attention is needed
+    color: 008672  # Dark cyan color
+
+  # Question Label
+  # Used for issues that are queries or require clarification rather than reporting problems or suggesting changes.
+  - name: question
+    description: Further information is requested
+    color: cc317c  # Purple color
+
+
+plugins:
+  # The auto_triage_v1 plugin automatically applies labels to new issues based on their content.
+  # It scans the issue title and body for the specified terms and applies the corresponding label.
+  # This helps in quickly categorizing and prioritizing issues without manual intervention.
+  # The 'enabled' flag allows easy activation/deactivation of the plugin without removing the configuration.
+  auto_triage_v1:
+    # Determines whether the auto-triage functionality is active
+    enabled: true
+
+    # Defines the rules for automatic labeling of issues
+    rules:
+      # Each rule specifies a label and associated terms
+      - label: bug
+        # If any of these terms are found in the issue title or body,
+        # the "bug" label will be applied
+        terms:
+          - "error"
+          - "crash"
+          - "broken"
+          - "fix"
+
+      - label: enhancement
+        # These terms trigger the "enhancement" label
+        terms:
+          - "feature request"
+          - "improvement"
+          - "enhance"
+
+      - label: help wanted
+        # These terms indicate that help is needed and will apply the "help wanted" label
+        terms:
+          - "help needed"
+          - "assistance required"
+          - "looking for contributors"
+
+      - label: question
+        # These phrases suggest that the issue is a question
+        terms:
+          - "how to"
+          - "is it possible"
+          - "can someone explain"

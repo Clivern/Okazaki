@@ -23,128 +23,107 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import yaml
 
-from okazaki.util import Logger
-from .label_rule import LabelRule
-from .issue_rule import IssueRule
-from .pull_request_rule import PullRequestRule
-from typing import List
+from dataclasses import dataclass
+from typing import List, Dict, Optional
+
+
+@dataclass
+class Label:
+    """Represents a label for categorizing issues or pull requests."""
+
+    name: str
+    description: str
+    color: str
+
+
+@dataclass
+class AutoTriageRule:
+    """Defines a rule for automatic issue triaging."""
+
+    label: str
+    terms: List[str]
+
+
+@dataclass
+class AutoTriageConfig:
+    """Configuration for the auto-triage plugin."""
+
+    enabled: bool
+    rules: List[AutoTriageRule]
 
 
 class ConfigParser:
     """
-    A class for parsing and processing configuration data.
+    A class for parsing and processing configuration data for GitHub issue management.
     """
 
-    def __init__(self, config, values_attr="data", logger=None):
+    def __init__(self, configs: Dict = {}):
         """
-        Initialize the ConfigParser.
-        """
-        self._config = config
-        self._values_attr = values_attr
-        self._label_rules: List[LabelRule] = []
-        self._issue_rules: List[IssueRule] = []
-        self._pull_request_rules: List[PullRequestRule] = []
-        self._logger = Logger().get_logger(__name__) if logger is None else logger
+        Initialize the ConfigParser with configuration data.
 
-    def _pipeline_set_data_item(self):
+        Args:
+            configs (Dict): A dictionary containing the configuration data.
         """
-        Process the configuration to replace data references.
-        """
-        data = self._config.get(self._values_attr, {})
+        self._configs = configs
+        self._parsed = {}
 
-        def replace_data_references(obj):
-            if isinstance(obj, dict):
-                return {k: replace_data_references(v) for k, v in obj.items()}
+    def parse(self) -> Dict:
+        """
+        Parse the entire configuration.
 
-            elif isinstance(obj, list):
-                return [replace_data_references(item) for item in obj]
+        Returns:
+            Dict: A dictionary containing the parsed configuration.
+        """
+        self._parsed["labels"] = self.parse_labels(self._configs.get("labels", []))
+        self._parsed["plugins"] = self.parse_plugins(self._configs.get("plugins", {}))
 
-            elif isinstance(obj, str) and obj.startswith("${var."):
-                # Remove '${var.' prefix and '}' suffix
-                item_key = obj[6:-1]
-                return data.get(item_key, obj)
+        return self._parsed
 
-            else:
-                return obj
+    def parse_labels(self, label_data: List[dict]) -> List[Label]:
+        """
+        Parse the labels configuration.
 
-        self._config = replace_data_references(self._config)
+        Args:
+            label_data (List[dict]): A list of dictionaries, each representing a label.
 
-    def _extract_label_rules(self):
+        Returns:
+            List[Label]: A list of Label objects.
         """
-        Extract label rules from the configuration.
-        """
-        rules = self._config.get("rules", [])
+        return [Label(**label) for label in label_data]
 
-        for rule in rules:
-            if "label" in rule:
-                label_rule = LabelRule(
-                    name=rule["name"],
-                    state=rule["label"]["state"],
-                    title=rule["label"]["title"],
-                    description=rule["label"].get("description"),
-                    color=rule["label"].get("color"),
-                    new_title=rule["label"].get("new_title"),
-                    new_color=rule["label"].get("new_color"),
-                    new_description=rule["label"].get("new_description"),
-                )
+    def parse_plugins(self, plugins_data: Dict) -> Dict:
+        """
+        Parse the plugins configuration.
 
-                self._label_rules.append(label_rule)
+        Args:
+            plugins_data (Dict): A dictionary containing plugin configurations.
 
-    def _extract_issue_rules(self):
+        Returns:
+            Dict: A dictionary of parsed plugin configurations.
         """
-        Extract issue rules from the configuration.
-        """
-        pass
+        parsed_plugins = {}
 
-    def _extract_pull_request_rules(self):
-        """
-        Extract pull request rules from the configuration.
-        """
-        pass
+        for plugin_name, plugin_data in plugins_data.items():
+            if plugin_data.get("enabled", False):
+                if plugin_name == "auto_triage_v1":
+                    parsed_plugins[plugin_name] = self.parse_auto_triage(plugin_data)
+                # Add more plugin parsers here as needed
 
-    def process_config(self):
-        """
-        Process the configuration by running all pipeline methods.
-        """
-        pipelines = [
-            self._pipeline_set_data_item,
-            self._extract_label_rules,
-            self._extract_issue_rules,
-            self._extract_pull_request_rules,
-            # Add more pipeline methods here
-        ]
+        return parsed_plugins
 
-        for pipeline in pipelines:
-            pipeline()
+    def parse_auto_triage(self, auto_triage_data: Dict) -> AutoTriageConfig:
+        """
+        Parse the auto-triage plugin configuration.
 
-    def get_processed_config(self):
-        """
-        Get the processed configuration.
-        """
-        return self._config
+        Args:
+            auto_triage_data (Dict): A dictionary containing auto-triage configuration.
 
-    def print_processed_config(self):
+        Returns:
+            AutoTriageConfig: An object representing the parsed auto-triage configuration.
         """
-        Print the processed configuration in YAML format.
-        """
-        print(yaml.dump(self._config, default_flow_style=False))
+        rules = [AutoTriageRule(**rule) for rule in auto_triage_data.get("rules", [])]
 
-    def get_label_rules(self):
-        """
-        Get the extracted label rules.
-        """
-        return self._label_rules
-
-    def get_issue_rules(self):
-        """
-        Get the extracted issue rules.
-        """
-        return self._issue_rules
-
-    def get_pull_request_rules(self):
-        """
-        Get the extracted pull request rules.
-        """
-        return self._pull_request_rules
+        return AutoTriageConfig(
+            enabled=auto_triage_data.get("enabled", False), rules=rules
+        )

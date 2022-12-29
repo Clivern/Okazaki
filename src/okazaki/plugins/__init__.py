@@ -23,24 +23,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import yaml
 
-
-class FileConfigLoader:
-    """
-    The FileConfigLoader class provides methods to load configuration
-    data from a YAML file.
-    """
-
-    def __init__(self, file_path):
-        """
-        Initializes the FileConfigLoader class with the given file path.
-        """
-        self._file_path = file_path
-
-    def get_configs(self):
-        """
-        Reads and parses the YAML configuration file.
-        """
-        with open(self._file_path, "r") as file:
-            return yaml.safe_load(file)
+from .labels import LabelsPlugin
+from .auto_triage_v1 import AutoTriageV1Plugin

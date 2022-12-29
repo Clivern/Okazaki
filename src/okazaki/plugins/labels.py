@@ -23,6 +23,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .remote_config_reader import RemoteConfigReader
-from .local_config_reader import LocalConfigReader
-from .config_parser import ConfigParser
+
+class LabelsPlugin:
+    pass

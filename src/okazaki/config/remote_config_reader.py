@@ -23,9 +23,37 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from dataclasses import dataclass
+import yaml
+import hashlib
 
 
-@dataclass
-class IssueRule:
-    name: str
+class RemoteConfigReader:
+    """
+    A class for loading configuration files from a remote repository.
+    """
+
+    def __init__(self, app, repo, file_path):
+        """
+        Initializes the RemoteConfigReader instance.
+        """
+        self._app = app
+        self._repo = repo
+        self._file_path = file_path
+
+    def get_configs(self):
+        """
+        Retrieves the content of the specified configuration file from the remote repository.
+        """
+        repo = self._app.get_client().get_repo(self._repo)
+
+        try:
+            content = repo.get_contents(self._file_path)
+        except Exception:
+            return None
+
+        return {
+            "configs": yaml.safe_load(content.decoded_content.decode()),
+            "checksum": hashlib.sha256(
+                content.decoded_content.decode().encode()
+            ).hexdigest(),
+        }

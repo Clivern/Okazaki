@@ -23,9 +23,37 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from dataclasses import dataclass
+from okazaki.api import Client
+from okazaki.api import App
+from okazaki.config import RemoteConfigReader
+from okazaki.config import LocalConfigReader
+from okazaki.config import ConfigParser
 
 
-@dataclass
-class PullRequestRule:
-    name: str
+# -------------------------
+# app_id = 18984
+# installation_id = 57652995
+# private_key = (
+#     "/Users/ahmetwal/space/personal/Ropen/storage/secrets/github_app_private.key"
+# )
+
+# client = Client()
+
+# result = client.fetch_access_token(private_key, app_id, installation_id)
+
+# print(result)
+
+# app = App(app_id, private_key, installation_id, result["permissions"])
+# app.init()
+
+# rc = RemoteConfigReader(app, "clivern/abc", ".github/workflows/release.yml")
+
+# print(rc.get_configs())
+# -------------------------
+
+
+lc = LocalConfigReader("/Users/ahmetwal/space/personal/Okazaki/.ropen.yml")
+print(lc.get_configs())
+
+cp = ConfigParser(lc.get_configs()["configs"])
+print(cp.parse())
