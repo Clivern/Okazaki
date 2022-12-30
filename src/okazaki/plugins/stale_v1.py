@@ -24,6 +24,5 @@
 # SOFTWARE.
 
 
-from .labels import LabelsPlugin
-from .auto_triage_v1 import AutoTriageV1Plugin
-from .stale_v1 import StaleV1Plugin
+class StaleV1Plugin:
+    pass
