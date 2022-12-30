@@ -24,6 +24,6 @@
 # SOFTWARE.
 
 
-from .labels import LabelsPlugin
+from .labels_v1 import LabelsV1Plugin
 from .auto_triage_v1 import AutoTriageV1Plugin
 from .stale_v1 import StaleV1Plugin
