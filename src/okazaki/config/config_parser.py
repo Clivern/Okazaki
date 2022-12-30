@@ -25,33 +25,34 @@
 
 
 from dataclasses import dataclass
-from typing import List, Dict, Optional
-
+from typing import List, Dict, Optional, Any
 
 @dataclass
 class Label:
     """Represents a label for categorizing issues or pull requests."""
-
     name: str
     description: str
     color: str
 
-
 @dataclass
 class AutoTriageRule:
     """Defines a rule for automatic issue triaging."""
-
     label: str
     terms: List[str]
-
 
 @dataclass
 class AutoTriageConfig:
     """Configuration for the auto-triage plugin."""
-
     enabled: bool
     rules: List[AutoTriageRule]
 
+@dataclass
+class StaleConfig:
+    """Configuration for the stale plugin."""
+    enabled: bool
+    issues: Dict[str, Any]
+    pulls: Dict[str, Any]
+    exemptLabels: List[str]
 
 class ConfigParser:
     """
@@ -108,6 +109,8 @@ class ConfigParser:
             if plugin_data.get("enabled", False):
                 if plugin_name == "auto_triage_v1":
                     parsed_plugins[plugin_name] = self.parse_auto_triage(plugin_data)
+                elif plugin_name == "stale_v1":
+                    parsed_plugins[plugin_name] = self.parse_stale(plugin_data)
                 # Add more plugin parsers here as needed
 
         return parsed_plugins
@@ -126,4 +129,21 @@ class ConfigParser:
 
         return AutoTriageConfig(
             enabled=auto_triage_data.get("enabled", False), rules=rules
+        )
+
+    def parse_stale(self, stale_data: Dict) -> StaleConfig:
+        """
+        Parse the stale plugin configuration.
+
+        Args:
+            stale_data (Dict): A dictionary containing stale plugin configuration.
+
+        Returns:
+            StaleConfig: An object representing the parsed stale configuration.
+        """
+        return StaleConfig(
+            enabled=stale_data.get("enabled", False),
+            issues=stale_data.get("issues", {}),
+            pulls=stale_data.get("pulls", {}),
+            exemptLabels=stale_data.get("exemptLabels", [])
         )
