@@ -29,3 +29,4 @@ from .repository import Repository
 from .statistics import Statistics
 from .milestone import Milestone
 from .webhook import Webhook
+from .main import Main

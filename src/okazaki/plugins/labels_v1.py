@@ -54,6 +54,7 @@ class LabelsV1Plugin:
                     self._logger.info(
                         f"Updating a current label {cfg_label.name} for a repository {self._repo_name}"
                     )
+
                     self._label.update_label(
                         self._repo_name,
                         cfg_label.name,
@@ -66,6 +67,7 @@ class LabelsV1Plugin:
                 self._logger.info(
                     f"Creating a new label {cfg_label.name} for a repository {self._repo_name}"
                 )
+
                 self._label.create_label(
                     self._repo_name,
                     cfg_label.name,
@@ -79,6 +81,9 @@ class LabelsV1Plugin:
                 self._logger.info(
                     f"Deleting a label {gh_label.name} for a repository {self._repo_name}"
                 )
+
                 self._label.delete_label(self._repo_name, gh_label.name)
 
         self._logger.info(f"Finished labels sync for a repository {self._repo_name}")
+
+        return True
