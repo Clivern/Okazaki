@@ -50,6 +50,7 @@ class AutoTriageConfig:
     """Configuration for the auto-triage plugin."""
 
     enabled: bool
+    triagedLabel: str
     rules: List[AutoTriageRule]
 
 
@@ -137,7 +138,9 @@ class ConfigParser:
         rules = [AutoTriageRule(**rule) for rule in auto_triage_data.get("rules", [])]
 
         return AutoTriageConfig(
-            enabled=auto_triage_data.get("enabled", False), rules=rules
+            enabled=auto_triage_data.get("enabled", False),
+            triagedLabel=auto_triage_data.get("triagedLabel", "triaged"),
+            rules=rules,
         )
 
     def parse_stale(self, stale_data: Dict) -> StaleConfig:

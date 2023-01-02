@@ -28,6 +28,7 @@ from okazaki.config import RemoteConfigReader
 from okazaki.config import LocalConfigReader
 from okazaki.config import ConfigParser
 from okazaki.plugins import LabelsV1Plugin
+from okazaki.plugins import AutoTriageV1Plugin
 
 
 def get_sys_logger():
@@ -50,6 +51,7 @@ def get_sys_logger():
     logger.addHandler(console_handler)
 
     return logger
+
 
 def get_app(app_id, installation_id, private_key_path):
     """
@@ -76,6 +78,7 @@ def get_app(app_id, installation_id, private_key_path):
     app.init()
     return app
 
+
 def get_remote_parsed_configs(app, repo_name, config_path=".github/ropen.yml"):
     """
     Retrieves, parses, and returns the remote configuration files.
@@ -98,6 +101,7 @@ def get_remote_parsed_configs(app, repo_name, config_path=".github/ropen.yml"):
         "checksum": result["checksum"],
     }
 
+
 def get_local_parsed_configs(file_path):
     """
     Retrieves, parses, and returns the local configuration files.
@@ -118,6 +122,7 @@ def get_local_parsed_configs(file_path):
         "checksum": result["checksum"],
     }
 
+
 def run_labels_v1_plugin(app, repo_name, labels_parsed_configs, logger):
     """
     Runs the LabelsV1Plugin with the provided configurations and logger.
@@ -134,3 +139,21 @@ def run_labels_v1_plugin(app, repo_name, labels_parsed_configs, logger):
     labels_v1_plugin = LabelsV1Plugin(app, repo_name, labels_parsed_configs, logger)
 
     return labels_v1_plugin.run()
+
+
+def run_auto_triage_v1_plugin(app, repo_name, plugin_rules, logger):
+    """
+    Run the Auto Triage V1 Plugin to label issues based on predefined rules.
+
+    Args:
+        app: Application object with configuration and API clients.
+        repo_name (str): Name of the repository to triage.
+        plugin_rules: Object containing auto-triage rules.
+        logger: Logger object for operations and errors.
+
+    Returns:
+        bool: True if auto-triage completes successfully, False otherwise.
+    """
+    auto_triage_v1_plugin = AutoTriageV1Plugin(app, repo_name, plugin_rules, logger)
+
+    return auto_triage_v1_plugin.run()

@@ -23,6 +23,56 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from okazaki.api import Issue
+from okazaki.util import Logger
+
 
 class AutoTriageV1Plugin:
-    pass
+    """Auto Triage Plugin V1"""
+
+    def __init__(self, app, repo_name, plugin_rules, logger):
+        self._app = app
+        self._issue = Issue(app)
+        self._repo_name = repo_name
+        self._plugin_rules = plugin_rules
+        self._logger = Logger().get_logger(__name__) if logger is None else logger
+        self._triaged_label = plugin_rules.triagedLabel
+
+    def run(self):
+        issues = self._issue.get_issues(self._repo_name, "open")
+
+        for issue in issues:
+            issue_title = issue.title.lower()
+            issue_body = issue.body.lower()
+            issue_number = issue.number
+            issue_labels = [label.name for label in issue.labels]
+
+            # Skip if the issue has already been triaged
+            if self._triaged_label in issue_labels:
+                continue
+
+            labels_to_add = []
+
+            for rule in self._plugin_rules.rules:
+                label = rule.label
+                terms = rule.terms
+
+                if any(
+                    term.lower() in issue_title or term.lower() in issue_body
+                    for term in terms
+                ):
+                    labels_to_add.append(label)
+
+            if labels_to_add:
+                labels_to_add.append(self._triaged_label)
+                try:
+                    self._issue.add_labels(self._repo_name, issue_number, labels_to_add)
+                    self._logger.info(
+                        f"Added labels {labels_to_add} to issue #{issue_number} in repository {self._repo_name}"
+                    )
+                except Exception as e:
+                    self._logger.error(
+                        f"Failed to add labels {labels_to_add} to issue #{issue_number} in repository {self._repo_name}: {str(e)}"
+                    )
+
+        return True

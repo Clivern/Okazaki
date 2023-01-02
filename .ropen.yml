@@ -70,6 +70,12 @@ labels:
     description: Addresses a security concern or vulnerability
     color: d93f0b  # Dark orange color
 
+  # Triaged Label
+  # Applied to issues that have been automatically categorized by the triage system.
+  - name: triaged
+    description: This issue has been automatically triaged
+    color: 0e8a16  # Green color
+
 
 plugins:
   # The auto_triage_v1 plugin automatically applies labels to new issues based on their content.
@@ -79,6 +85,9 @@ plugins:
   auto_triage_v1:
     # Determines whether the auto-triage functionality is active
     enabled: true
+
+    # Determines whether the ticket/PR is triaged
+    triagedLabel: triaged
 
     # Defines the rules for automatic labeling of issues
     rules:

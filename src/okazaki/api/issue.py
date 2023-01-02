@@ -47,6 +47,15 @@ class Issue:
         except Exception:
             return None
 
+    def get_issues(self, repo, state="open"):
+        """
+        Retrieves issues by state
+        """
+        try:
+            return self._get_repo(repo).get_issues(state=state)
+        except Exception:
+            return None
+
     def create_issue(
         self,
         repo,

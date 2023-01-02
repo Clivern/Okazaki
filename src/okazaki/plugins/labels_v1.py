@@ -41,12 +41,14 @@ class LabelsV1Plugin:
         """Run the Sync"""
         gh_labels = self._label.get_labels(self._repo_name)
         gh_label_names = {label.name: label for label in gh_labels}
+
         self._logger.info(f"Start labels sync for a repository {self._repo_name}")
 
         for cfg_label in self._cfg_labels:
             if cfg_label.name in gh_label_names:
                 # Update existing label if needed (color or description)
                 gh_label = gh_label_names[cfg_label.name]
+
                 if (
                     gh_label.color != cfg_label.color
                     or gh_label.description != cfg_label.description
