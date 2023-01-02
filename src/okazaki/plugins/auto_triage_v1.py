@@ -36,7 +36,6 @@ class AutoTriageV1Plugin:
         self._repo_name = repo_name
         self._plugin_rules = plugin_rules
         self._logger = Logger().get_logger(__name__) if logger is None else logger
-        self._triaged_label = plugin_rules.triagedLabel
 
     def run(self):
         issues = self._issue.get_issues(self._repo_name, "open")
@@ -48,7 +47,7 @@ class AutoTriageV1Plugin:
             issue_labels = [label.name for label in issue.labels]
 
             # Skip if the issue has already been triaged
-            if self._triaged_label in issue_labels:
+            if self._plugin_rules.triagedLabel in issue_labels:
                 continue
 
             labels_to_add = []
@@ -64,7 +63,8 @@ class AutoTriageV1Plugin:
                     labels_to_add.append(label)
 
             if labels_to_add:
-                labels_to_add.append(self._triaged_label)
+                labels_to_add.append(self._plugin_rules.triagedLabel)
+
                 try:
                     self._issue.add_labels(self._repo_name, issue_number, labels_to_add)
                     self._logger.info(
