@@ -23,7 +23,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
 from dataclasses import dataclass
 from typing import List, Dict, Optional, Any
 
@@ -51,7 +50,8 @@ class AutoTriageConfig:
 
     enabled: bool
     triagedLabel: str
-    rules: List[AutoTriageRule]
+    issues: List[AutoTriageRule]
+    pulls: List[AutoTriageRule]
 
 
 @dataclass
@@ -121,8 +121,6 @@ class ConfigParser:
                     parsed_plugins[plugin_name] = self.parse_auto_triage(plugin_data)
                 elif plugin_name == "stale_v1":
                     parsed_plugins[plugin_name] = self.parse_stale(plugin_data)
-                # Add more plugin parsers here as needed
-
         return parsed_plugins
 
     def parse_auto_triage(self, auto_triage_data: Dict) -> AutoTriageConfig:
@@ -135,12 +133,18 @@ class ConfigParser:
         Returns:
             AutoTriageConfig: An object representing the parsed auto-triage configuration.
         """
-        rules = [AutoTriageRule(**rule) for rule in auto_triage_data.get("rules", [])]
+        issues_rules = [
+            AutoTriageRule(**rule) for rule in auto_triage_data.get("issues", [])
+        ]
+        pulls_rules = [
+            AutoTriageRule(**rule) for rule in auto_triage_data.get("pulls", [])
+        ]
 
         return AutoTriageConfig(
             enabled=auto_triage_data.get("enabled", False),
             triagedLabel=auto_triage_data.get("triagedLabel", "triaged"),
-            rules=rules,
+            issues=issues_rules,
+            pulls=pulls_rules,
         )
 
     def parse_stale(self, stale_data: Dict) -> StaleConfig:

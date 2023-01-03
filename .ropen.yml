@@ -90,7 +90,40 @@ plugins:
     triagedLabel: triaged
 
     # Defines the rules for automatic labeling of issues
-    rules:
+    issues:
+      # Each rule specifies a label and associated terms
+      - label: bug
+        # If any of these terms are found in the issue title or body,
+        # the "bug" label will be applied
+        terms:
+          - "error"
+          - "crash"
+          - "broken"
+          - "fix"
+
+      - label: enhancement
+        # These terms trigger the "enhancement" label
+        terms:
+          - "feature request"
+          - "improvement"
+          - "enhance"
+
+      - label: help wanted
+        # These terms indicate that help is needed and will apply the "help wanted" label
+        terms:
+          - "help needed"
+          - "assistance required"
+          - "looking for contributors"
+
+      - label: question
+        # These phrases suggest that the issue is a question
+        terms:
+          - "how to"
+          - "is it possible"
+          - "can someone explain"
+
+    # Defines the rules for automatic labeling of pulls
+    pulls:
       # Each rule specifies a label and associated terms
       - label: bug
         # If any of these terms are found in the issue title or body,
