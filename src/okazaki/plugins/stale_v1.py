@@ -30,7 +30,6 @@ from dateutil.tz import tzutc
 
 
 class StaleV1Plugin:
-
     def __init__(self, app, repo_name, stale_rules, logger):
         self._app = app
         self._issue = Issue(app)
@@ -75,23 +74,29 @@ class StaleV1Plugin:
             self._close_item(item, rules)
 
     def _is_exempt(self, item):
-        return any(label.name in self._stale_rules.exemptLabels for label in item.labels)
+        return any(
+            label.name in self._stale_rules.exemptLabels for label in item.labels
+        )
 
     def _is_stale(self, item, last_updated, now, rules):
-        return (now - last_updated).days >= rules['daysUntilStale'] and not self._has_stale_label(item, rules)
+        return (now - last_updated).days >= rules[
+            "daysUntilStale"
+        ] and not self._has_stale_label(item, rules)
 
     def _should_close(self, item, last_updated, now, rules):
-        return (now - last_updated).days >= (rules['daysUntilStale'] + rules['daysUntilClose']) and self._has_stale_label(item, rules)
+        return (now - last_updated).days >= (
+            rules["daysUntilStale"] + rules["daysUntilClose"]
+        ) and self._has_stale_label(item, rules)
 
     def _has_stale_label(self, item, rules):
-        return any(label.name == rules['staleLabel'] for label in item.labels)
+        return any(label.name == rules["staleLabel"] for label in item.labels)
 
     def _mark_as_stale(self, item, rules):
         self._logger.info(f"Marking item #{item.number} as stale")
-        self._issue.add_labels(self._repo_name, item.number, [rules['staleLabel']])
-        self._issue.add_comment(self._repo_name, item.number, rules['markComment'])
+        self._issue.add_labels(self._repo_name, item.number, [rules["staleLabel"]])
+        self._issue.add_comment(self._repo_name, item.number, rules["markComment"])
 
     def _close_item(self, item, rules):
         self._logger.info(f"Closing stale item #{item.number}")
         self._issue.close_issue(self._repo_name, item.number)
-        self._issue.add_comment(self._repo_name, item.number, rules['closeComment'])
+        self._issue.add_comment(self._repo_name, item.number, rules["closeComment"])
