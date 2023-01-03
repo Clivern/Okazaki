@@ -29,6 +29,7 @@ from okazaki.config import LocalConfigReader
 from okazaki.config import ConfigParser
 from okazaki.plugins import LabelsV1Plugin
 from okazaki.plugins import AutoTriageV1Plugin
+from okazaki.plugins import StaleV1Plugin
 
 
 def get_sys_logger():
@@ -157,3 +158,21 @@ def run_auto_triage_v1_plugin(app, repo_name, plugin_rules, logger):
     auto_triage_v1_plugin = AutoTriageV1Plugin(app, repo_name, plugin_rules, logger)
 
     return auto_triage_v1_plugin.run()
+
+
+def run_stale_v1_plugin(app, repo_name, stale_rules, logger):
+    """
+    Run the Stale V1 Plugin for a given repository.
+
+    Args:
+        app (object): The application instance.
+        repo_name (str): The name of the repository to run the plugin on.
+        stale_rules (dict): A dictionary containing the stale rules configuration.
+        logger (object): The logger object for logging messages.
+
+    Returns:
+        The result of running the Stale V1 Plugin.
+    """
+    stale_v1_plugin = StaleV1Plugin(app, repo_name, stale_rules, logger)
+
+    return stale_v1_plugin.run()
