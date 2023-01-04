@@ -38,6 +38,7 @@ class AutoTriageV1Plugin:
         self._logger = Logger().get_logger(__name__) if logger is None else logger
 
     def run(self):
+        """Run the Plugin"""
         if not self._plugin_rules.enabled:
             self._logger.info("Auto Triage V1 Plugin is disabled. Skipping.")
             return True

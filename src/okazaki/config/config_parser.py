@@ -116,11 +116,13 @@ class ConfigParser:
         parsed_plugins = {}
 
         for plugin_name, plugin_data in plugins_data.items():
+
             if plugin_data.get("enabled", False):
                 if plugin_name == "auto_triage_v1":
                     parsed_plugins[plugin_name] = self.parse_auto_triage(plugin_data)
                 elif plugin_name == "stale_v1":
                     parsed_plugins[plugin_name] = self.parse_stale(plugin_data)
+
         return parsed_plugins
 
     def parse_auto_triage(self, auto_triage_data: Dict) -> AutoTriageConfig:
@@ -136,6 +138,7 @@ class ConfigParser:
         issues_rules = [
             AutoTriageRule(**rule) for rule in auto_triage_data.get("issues", [])
         ]
+
         pulls_rules = [
             AutoTriageRule(**rule) for rule in auto_triage_data.get("pulls", [])
         ]

@@ -30,6 +30,8 @@ from dateutil.tz import tzutc
 
 
 class StaleV1Plugin:
+    """Stale Plugin V1"""
+
     def __init__(self, app, repo_name, stale_rules, logger):
         self._app = app
         self._issue = Issue(app)
@@ -38,6 +40,7 @@ class StaleV1Plugin:
         self._logger = Logger().get_logger(__name__) if logger is None else logger
 
     def run(self):
+        """Run the Plugin"""
         self._logger.info(f"Running Stale V1 Plugin for repository: {self._repo_name}")
 
         if not self._stale_rules.enabled:
@@ -49,6 +52,7 @@ class StaleV1Plugin:
 
     def _process_issues(self):
         issues = self._issue.get_issues(self._repo_name, state="open")
+
         for issue in issues:
             # Process if not a pull request
             if issue.pull_request is None:
@@ -56,6 +60,7 @@ class StaleV1Plugin:
 
     def _process_pull_requests(self):
         pulls = self._issue.get_issues(self._repo_name, state="open")
+
         for pull in pulls:
             # Process if it is a pull request
             if pull.pull_request is not None:

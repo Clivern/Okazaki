@@ -38,7 +38,7 @@ class LabelsV1Plugin:
         self._logger = Logger().get_logger(__name__) if logger is None else logger
 
     def run(self):
-        """Run the Sync"""
+        """Run the Plugin"""
         gh_labels = self._label.get_labels(self._repo_name)
         gh_label_names = {label.name: label for label in gh_labels}
 
