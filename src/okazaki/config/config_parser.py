@@ -24,7 +24,7 @@
 # SOFTWARE.
 
 from dataclasses import dataclass
-from typing import List, Dict, Optional, Any
+from typing import List, Dict, Any
 
 
 @dataclass
@@ -117,11 +117,10 @@ class ConfigParser:
 
         for plugin_name, plugin_data in plugins_data.items():
 
-            if plugin_data.get("enabled", False):
-                if plugin_name == "auto_triage_v1":
-                    parsed_plugins[plugin_name] = self.parse_auto_triage(plugin_data)
-                elif plugin_name == "stale_v1":
-                    parsed_plugins[plugin_name] = self.parse_stale(plugin_data)
+            if plugin_name == "auto_triage_v1":
+                parsed_plugins[plugin_name] = self.parse_auto_triage(plugin_data)
+            elif plugin_name == "stale_v1":
+                parsed_plugins[plugin_name] = self.parse_stale(plugin_data)
 
         return parsed_plugins
 

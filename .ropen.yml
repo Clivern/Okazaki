@@ -201,3 +201,28 @@ plugins:
     exemptLabels:
       - "pinned"
       - "security"
+
+  # The plugin automatically close PRs based on certain conditions
+  auto_close_pr_v1:
+    # Determines whether the auto close plugin is active
+    enabled: false
+
+  # The plugin automatically merge PRs that meet certain criteria,
+  # such as passing all checks and receiving approvals
+  auto_merge_v1:
+    enabled: false
+
+  # The plugin assign reviewers to PRs based on the files changed
+  # and team members' expertise
+  auto_assign_reviewer_v1:
+    enabled: false
+
+  # The plugin automatically generate PR descriptions including
+  # summary, code walkthrough, and type of changes
+  auto_ai_description_generator_v1:
+    enabled: false
+
+  # The plugin provides automated feedback on PRs, including security issues,
+  # test coverage, and code quality suggestions
+  auto_ai_review_v1:
+    enabled: false

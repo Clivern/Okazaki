@@ -25,7 +25,7 @@
 
 from okazaki.api import Issue
 from okazaki.util import Logger
-from datetime import datetime, timedelta
+from datetime import datetime
 from dateutil.tz import tzutc
 
 
@@ -68,6 +68,7 @@ class StaleV1Plugin:
 
     def _process_item(self, item, rules):
         if self._is_exempt(item):
+            self._logger.info(f"Item #{item.number} has one of the exempt labels")
             return
 
         last_updated = item.updated_at
