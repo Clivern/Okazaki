@@ -116,7 +116,6 @@ class ConfigParser:
         parsed_plugins = {}
 
         for plugin_name, plugin_data in plugins_data.items():
-
             if plugin_name == "auto_triage_v1":
                 parsed_plugins[plugin_name] = self.parse_auto_triage(plugin_data)
             elif plugin_name == "stale_v1":
