@@ -25,4 +25,6 @@
 
 
 class NotFound(Exception):
+    """NotFound Custom Exception"""
+
     pass

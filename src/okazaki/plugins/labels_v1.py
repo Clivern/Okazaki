@@ -28,9 +28,18 @@ from okazaki.util import Logger
 
 
 class LabelsV1Plugin:
-    """Labels Sync Plugin V1"""
+    """A plugin for synchronizing labels in a repository."""
 
     def __init__(self, app, repo_name, cfg_labels, logger=None):
+        """
+        Initialize the LabelsV1Plugin.
+
+        Args:
+            app: The application context.
+            repo_name: The name of the repository.
+            cfg_labels: Configuration labels to sync with the repository.
+            logger: Logger instance for logging messages (optional).
+        """
         self._app = app
         self._label = Label(app)
         self._repo_name = repo_name
@@ -38,15 +47,16 @@ class LabelsV1Plugin:
         self._logger = Logger().get_logger(__name__) if logger is None else logger
 
     def run(self):
-        """Run the Plugin"""
+        """Execute the plugin to synchronize labels with the repository."""
         gh_labels = self._label.get_labels(self._repo_name)
         gh_label_names = {label.name: label for label in gh_labels}
 
-        self._logger.info(f"Start labels sync for a repository {self._repo_name}")
+        self._logger.info(f"Start labels sync for repository {self._repo_name}")
 
+        # Synchronize labels based on configuration
         for cfg_label in self._cfg_labels:
             if cfg_label.name in gh_label_names:
-                # Update existing label if needed (color or description)
+                # Update existing label properties if necessary
                 gh_label = gh_label_names[cfg_label.name]
 
                 if (
@@ -54,7 +64,7 @@ class LabelsV1Plugin:
                     or gh_label.description != cfg_label.description
                 ):
                     self._logger.info(
-                        f"Updating a current label {cfg_label.name} for a repository {self._repo_name}"
+                        f"Updating existing label {cfg_label.name} in repository {self._repo_name}"
                     )
 
                     self._label.update_label(
@@ -67,7 +77,7 @@ class LabelsV1Plugin:
             else:
                 # Create new label if it doesn't exist
                 self._logger.info(
-                    f"Creating a new label {cfg_label.name} for a repository {self._repo_name}"
+                    f"Creating new label {cfg_label.name} in repository {self._repo_name}"
                 )
 
                 self._label.create_label(
@@ -77,15 +87,15 @@ class LabelsV1Plugin:
                     cfg_label.description,
                 )
 
-        # Delete labels that are not in the configuration
+        # Remove labels that are not in the configuration
         for gh_label in gh_labels:
             if gh_label.name not in (cfg_label.name for cfg_label in self._cfg_labels):
                 self._logger.info(
-                    f"Deleting a label {gh_label.name} for a repository {self._repo_name}"
+                    f"Deleting label {gh_label.name} from repository {self._repo_name}"
                 )
 
                 self._label.delete_label(self._repo_name, gh_label.name)
 
-        self._logger.info(f"Finished labels sync for a repository {self._repo_name}")
+        self._logger.info(f"Finished labels sync for repository {self._repo_name}")
 
         return True

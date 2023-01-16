@@ -25,4 +25,6 @@
 
 
 class ApiError(Exception):
+    """ApiError Custom Exception"""
+
     pass

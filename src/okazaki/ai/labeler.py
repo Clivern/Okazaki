@@ -27,6 +27,8 @@ from .langchain import Client as LangchainClient
 
 
 class Labeler:
+    """A class for labeling GitHub issues based on their content."""
+
     @staticmethod
     def label(
         openai_api_key,
@@ -38,7 +40,22 @@ class Labeler:
         callbacks=[],
     ):
         """
-        Label a GitHub issue based on its title and body.
+        Labels a GitHub issue based on its title and body.
+
+        Args:
+            openai_api_key (str): API key for accessing OpenAI services.
+            title (str): The title of the GitHub issue.
+            body (str): The body content of the GitHub issue.
+            labels (list): A list of possible labels to assign (default is empty).
+            model_name (str): The name of the model to use for labeling (default is "gpt-4o-mini").
+            temperature (float): Controls the randomness of the model's output (default is 0).
+            callbacks (list): A list of callback functions to execute during processing (default is empty).
+
+        Returns:
+            list: A list of labels that best fit the issue, stripped of whitespace.
+
+        Raises:
+            ValueError: If no valid labels are provided or if an error occurs during processing.
         """
         prompt = f"""
         Given the following GitHub issue, assign the most appropriate label(s) from this list:

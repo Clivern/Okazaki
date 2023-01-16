@@ -28,6 +28,15 @@ from dataclasses import dataclass
 
 @dataclass
 class Document:
+    """
+    A class representing a document with an ID, text content, and associated metadata.
+
+    Attributes:
+        id (str): A unique identifier for the document.
+        text (str): The main textual content of the document.
+        metadata (dict): A dictionary containing additional information about the document.
+    """
+
     id: str
     text: str
     metadata: dict

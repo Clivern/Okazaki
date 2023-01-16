@@ -27,12 +27,27 @@ from .langchain import Client as LangchainClient
 
 
 class Summarize:
+    """A class for summarizing text using a language model."""
+
     @staticmethod
     def summarize(
         openai_api_key, text, model_name="gpt-4o-mini", temperature=0, callbacks=[]
     ):
         """
-        Summarize the given text using a language model.
+        Summarizes the given text using a specified language model.
+
+        Args:
+            openai_api_key (str): API key for accessing OpenAI services.
+            text (str): The text to be summarized.
+            model_name (str): The name of the model to use for summarization (default is "gpt-4o-mini").
+            temperature (float): Sampling temperature for the model (default is 0).
+            callbacks (list): A list of callback functions to be executed during processing (default is empty).
+
+        Returns:
+            str: The summarized version of the input text.
+
+        Raises:
+            Exception: If there is an error during the summarization process.
         """
         chain = LangchainClient.create_chat_chain(
             openai_api_key,

@@ -29,6 +29,8 @@ from langchain_core.output_parsers import StrOutputParser
 
 
 class Client:
+    """A class for creating chat chains with OpenAI models."""
+
     @staticmethod
     def create_chat_chain(
         openai_api_key,
@@ -38,7 +40,20 @@ class Client:
         callbacks=[],
     ):
         """
-        Create a chat chain using the specified language model and parameters.
+        Creates a chat chain using the specified language model and parameters.
+
+        Args:
+            openai_api_key (str): API key for accessing OpenAI services.
+            model_name (str): The name of the model to use (default is "gpt-4o-mini").
+            temperature (float): Controls the randomness of the output (default is 0).
+            prompt_template (list): A list of message tuples for the chat prompt (default is None).
+            callbacks (list): A list of callback functions to be executed during processing (default is empty).
+
+        Returns:
+            Chain: A configured chat chain that processes user input and generates responses.
+
+        Raises:
+            ValueError: If the prompt template is invalid or cannot be processed.
         """
         prompt = ChatPromptTemplate.from_messages(prompt_template)
 
