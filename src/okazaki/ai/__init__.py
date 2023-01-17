@@ -26,5 +26,3 @@
 from .langchain import Client as LangchainClient
 from .labeler import Labeler
 from .summarize import Summarize
-from .document import Document
-from .qdrant import Client as QdrantClient
