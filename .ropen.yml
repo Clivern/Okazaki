@@ -78,6 +78,9 @@ labels:
 
 
 plugins:
+  # #############
+  # Free Plugins
+  # #############
   # The auto_triage_v1 plugin automatically applies labels to new issues based on their content.
   # It scans the issue title and body for the specified terms and applies the corresponding label.
   # This helps in quickly categorizing and prioritizing issues without manual intervention.
@@ -217,6 +220,10 @@ plugins:
   auto_assign_reviewer_v1:
     enabled: false
 
+
+  # ###############
+  # Premium plugins
+  # ###############
   # The plugin automatically generate PR descriptions including
   # summary, code walkthrough, and type of changes
   auto_ai_description_generator_v1:

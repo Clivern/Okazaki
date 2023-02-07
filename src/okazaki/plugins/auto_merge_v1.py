@@ -24,7 +24,7 @@
 # SOFTWARE.
 
 
-class AutoAIRespondV1Plugin:
-    """Auto AI Respond Plugin V1"""
+class AutoMergeV1Plugin:
+    """Auto Merge Plugin V1"""
 
     pass

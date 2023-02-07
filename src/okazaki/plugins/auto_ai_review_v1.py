@@ -24,7 +24,7 @@
 # SOFTWARE.
 
 
-class AutoAIRespondV1Plugin:
-    """Auto AI Respond Plugin V1"""
+class AutoAIReviewV1Plugin:
+    """Auto AI Review Plugin V1"""
 
     pass
