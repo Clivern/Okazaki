@@ -23,7 +23,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .langchain import Client as LangchainClient
-from .labeler import Labeler
-from .summarize import Summarize
-from .tyran import Tyran as TyranClient
+
+class AutoRespondV1Plugin:
+    """Auto Respond Plugin V1"""
+
+    pass

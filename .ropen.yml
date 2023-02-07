@@ -226,3 +226,8 @@ plugins:
   # test coverage, and code quality suggestions
   auto_ai_review_v1:
     enabled: false
+
+  # The plugin automatically respond to github issues using AI.
+  # It can add project specific data to the context
+  auto_ai_respond_v1:
+    enabled: false

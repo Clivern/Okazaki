@@ -30,7 +30,7 @@ from okazaki.util import Logger
 class Tyran(object):
     """Tyran Client https://github.com/Clivern/Tyran"""
 
-    def __init__(self, api_url, api_key, logger=None):
+    def __init__(self, base_url, api_key, logger=None):
         self._base_url = base_url
         self._api_key = api_key
         self._logger = Logger().get_logger(__name__) if logger is None else logger
@@ -44,7 +44,7 @@ class Tyran(object):
 
         data = {"content": content, "metadata": metadata}
 
-        self._logger.info(f"Create a new document in tyran service API")
+        self._logger.info("Create a new document in tyran service API")
 
         return requests.post(
             f"{self._base_url}/api/v1/document", json=data, headers=headers
@@ -83,7 +83,7 @@ class Tyran(object):
 
         data = {"text": text, "limit": limit, "metadata": metadata}
 
-        self._logger.info(f"Search documents in tyran service API")
+        self._logger.info("Search documents in tyran service API")
 
         return requests.post(
             f"{self._base_url}/api/v1/document/search", json=data, headers=headers
