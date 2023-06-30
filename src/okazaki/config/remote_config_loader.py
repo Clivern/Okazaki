@@ -25,13 +25,22 @@
 
 
 class RemoteConfigLoader:
+    """
+    A class for loading configuration files from a remote repository.
+    """
 
     def __init__(self, app, repo, file_path):
+        """
+        Initializes the RemoteConfigLoader instance.
+        """
         self._app = app
         self._repo = repo
         self._file_path = file_path
 
     def get_configs(self):
+        """
+        Retrieves the content of the specified configuration file from the remote repository.
+        """
         repo = self._app.get_client().get_repo(self._repo)
 
         try:
