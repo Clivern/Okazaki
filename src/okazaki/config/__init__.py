@@ -25,7 +25,7 @@
 
 from .label_rule import LabelRule
 from .issue_rule import IssueRule
+from .config_parser import ConfigParser
 from .pull_request_rule import PullRequestRule
 from .file_config_loader import FileConfigLoader
 from .remote_config_loader import RemoteConfigLoader
-from .config_parser import ConfigParser

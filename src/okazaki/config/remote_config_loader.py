@@ -26,10 +26,17 @@
 
 class RemoteConfigLoader:
 
-    def __init__(self, app, repo, branch):
+    def __init__(self, app, repo, file_path):
         self._app = app
         self._repo = repo
-        self._branch = branch
+        self._file_path = file_path
 
     def get_configs(self):
-        pass
+        repo = self._app.get_client().get_repo(self._repo)
+
+        try:
+            content = repo.get_contents(self._file_path)
+        except Exception as e:
+            return None
+
+        return content.decoded_content.decode()

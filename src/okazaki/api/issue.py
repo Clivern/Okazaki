@@ -72,8 +72,10 @@ class Issue:
         Retrieves specific labels by their names.
         """
         result = []
+
         for label in labels:
             result.append(self._get_repo(repo).get_label(label))
+
         return result if len(result) > 0 else None
 
     def close_issue(self, repo, number):
@@ -81,6 +83,7 @@ class Issue:
         Closes a specific issue by its number.
         """
         issue = self.get_issue(repo, number)
+
         if issue is not None:
             issue.edit(state='closed')
         else:
@@ -91,6 +94,7 @@ class Issue:
         Reopens a specific issue by its number.
         """
         issue = self.get_issue(repo, number)
+
         if issue is not None:
             issue.edit(state='open')
         else:
@@ -111,6 +115,7 @@ class Issue:
         Edits an existing issue.
         """
         issue = self.get_issue(repo, number)
+
         if issue is not None:
             issue.edit(
                 title=title,
@@ -128,6 +133,7 @@ class Issue:
         Adds a comment to a specific issue.
         """
         issue = self.get_issue(repo, number)
+
         if issue is not None:
             return issue.create_comment(body)
         else:
@@ -138,6 +144,7 @@ class Issue:
         Retrieves comments from a specific issue.
         """
         issue = self.get_issue(repo, number)
+
         if issue is not None:
             return issue.get_comments()
         else:
@@ -148,6 +155,7 @@ class Issue:
         Adds labels to a specific issue.
         """
         issue = self.get_issue(repo, number)
+
         if issue is not None:
             return issue.add_to_labels(*labels)
         else:
@@ -158,6 +166,7 @@ class Issue:
         Removes a label from a specific issue.
         """
         issue = self.get_issue(repo, number)
+
         if issue is not None:
             return issue.remove_from_labels(label)
         else:
@@ -168,6 +177,7 @@ class Issue:
         Retrieves events from a specific issue.
         """
         issue = self.get_issue(repo, number)
+
         if issue is not None:
             return issue.get_events()
         else:
