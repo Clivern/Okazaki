@@ -61,7 +61,8 @@ class ConfigParser:
                 return [replace_data_references(item) for item in obj]
 
             elif isinstance(obj, str) and obj.startswith('${var.'):
-                item_key = obj[6:-1]  # Remove '${var.' prefix and '}' suffix
+                # Remove '${var.' prefix and '}' suffix
+                item_key = obj[6:-1]
                 return data.get(item_key, obj)
 
             else:
