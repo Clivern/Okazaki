@@ -26,7 +26,7 @@
 
 class Statistics:
     """
-    The `Statistics` class is responsible for giving statistical data related to the given repository.
+    The class is responsible for giving statistical data related to the given repository.
     """
 
     def __init__(self, app):
