@@ -2,6 +2,9 @@
 #
 # Copyright (c) 2022 Clivern
 #
+# This software is licensed under the MIT License. The full text of the license
+# is provided below.
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -20,12 +23,29 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .app import App
-from .label import Label
-from .issue import Issue
-from .client import Client
-from .pull_request import PullRequest
-from .repository import Repository
-from .statistics import Statistics
-from .milestone import Milestone
-from .webhook import Webhook
+import hmac
+import hashlib
+
+
+class Webhook:
+    """Webhook Validates Github Webhook Payload"""
+
+    def sign_request(self, webhook_secret, data):
+        """Generate Payload Signature"""
+
+        message = bytes(data, "utf-8")
+        secret = bytes(webhook_secret, "utf-8")
+
+        hash = hmac.new(secret, message, hashlib.sha1)
+
+        return hash.hexdigest()
+
+    def validate_request(self, webhook_secret, data, signature):
+        """Validate Payload Signature"""
+
+        sha_name, signature = signature.split("=")
+
+        if sha_name != "sha1":
+            return False
+
+        return hmac.compare_digest(self.sign_request(webhook_secret, data), signature)
