@@ -24,5 +24,35 @@
 # SOFTWARE.
 
 from .client import Client
-from .labeler import Labeler
-from .summarize import Summarize
+
+
+class Labeler:
+
+    @staticmethod
+    def label(title, body, labels=[], model_name="gpt-4", temperature=0, callbacks=[]):
+        """
+        Label a GitHub issue based on its title and body.
+        """
+        prompt = f"""
+        Given the following GitHub issue, assign the most appropriate label(s) from this list:
+        {', '.join(labels)}
+
+        Issue Title: {title}
+        Issue Body: {body}
+
+        Return only the label(s) that best fit the issue, separated by commas if multiple labels apply.
+        """
+
+        chain = Client.create_chat_chain(
+            model_name,
+            temperature,
+            [
+                ("system", "You are an AI assistant that labels GitHub issues accurately."),
+                ("user", prompt),
+            ],
+            callbacks,
+        )
+
+        response = chain.invoke({"title": title, "body": body})
+
+        return [label.strip() for label in response.split(',')]
