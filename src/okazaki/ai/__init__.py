@@ -23,6 +23,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .client import Client
+from .langchain import Client as LangchainClient
 from .labeler import Labeler
 from .summarize import Summarize
+from .document import Document
+from .qdrant import Client as QdrantClient

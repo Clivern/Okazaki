@@ -23,13 +23,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .client import Client
+from .langchain import Client as LangchainClient
 
 
 class Labeler:
 
     @staticmethod
-    def label(title, body, labels=[], model_name="gpt-4", temperature=0, callbacks=[]):
+    def label(openai_api_key, title, body, labels=[], model_name="gpt-4o-mini", temperature=0, callbacks=[]):
         """
         Label a GitHub issue based on its title and body.
         """
@@ -43,7 +43,8 @@ class Labeler:
         Return only the label(s) that best fit the issue, separated by commas if multiple labels apply.
         """
 
-        chain = Client.create_chat_chain(
+        chain = LangchainClient.create_chat_chain(
+            openai_api_key,
             model_name,
             temperature,
             [

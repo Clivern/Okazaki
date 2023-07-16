@@ -23,51 +23,111 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from dataclasses import dataclass
-from qdrant_client import QdrantClient
+from openai import OpenAI
+from qdrant_client import QdrantClient, models
+from qdrant_client.models import PointStruct, VectorParams, Distance
 
-@dataclass
-class Document:
 
-    id: int
-    text: str
-    metadata: dict
+class Client:
 
-class Qdrant:
+    def __init__(
+        self,
+        qdrant_url,
+        qdrant_api_key,
+        open_api_key,
+        open_api_model="text-embedding-3-small"
+    ):
+        try:
+            self.qdrant_client = QdrantClient(
+                url=qdrant_url,
+                api_key=qdrant_api_key,
+            )
+        except Exception as e:
+            raise Exception(f"Error connecting to Qdrant: {e}")
 
-    def __init__(self, url, api_key):
-        self.client = QdrantClient(
-            url=url,
-            api_key=api_key,
-        )
+        try:
+            self.open_api_client = OpenAI(api_key=open_api_key)
+        except Exception as e:
+            raise Exception(f"Error connecting to OpenAI: {e}")
+
+        self.open_api_model = open_api_model
 
     def get_client(self):
-        return self.client
+        return self.qdrant_client
 
     def info(self):
-        return self.client.info()
+        return self.qdrant_client.info()
+
+    def create_collection(self, name, size = 1536):
+        try:
+            self.qdrant_client.create_collection(
+                name,
+                vectors_config=VectorParams(
+                    size=size,
+                    distance=Distance.COSINE
+                )
+            )
+        except Exception as e:
+            raise Exception(f"Error creating collection: {e}")
 
     def insert(self, collection, documents):
-        docs = []
-        metadata = []
-        ids = []
+        points = []
 
         for document in documents:
-            docs.append(document.text)
-            metadata.append(document.metadata)
-            ids.append(document.id)
+            payload = document.metadata
+            payload['text'] = document.text
 
+            try:
+                result = self.open_api_client.embeddings.create(
+                    input=document.text,
+                    model=self.open_api_model
+                )
+            except Exception as e:
+                raise Exception(f"Error creating embedding for document {document.id}: {e}")
 
-        return self.client.add(
-            collection_name=collection,
-            documents=docs,
-            metadata=metadata,
-            ids=ids
-        )
+            points.append(PointStruct(
+                id=document.id,
+                vector=result.data[0].embedding,
+                payload=payload
+            ))
 
-    def search(self, collection, query_text, limit=1):
-        return self.client.query(
-            collection_name=collection,
-            query_text=query_text,
-            limit=limit
-        )
+        try:
+            self.qdrant_client.upsert(collection, points)
+        except Exception as e:
+            raise Exception(f"Error inserting documents into collection: {e}")
+
+    def search(self, collection, text, filters = {}, limit = 10):
+        try:
+            result = self.open_api_client.embeddings.create(
+                input=text,
+                model=self.open_api_model
+            )
+        except Exception as e:
+            raise Exception(f"Error creating embedding for search query: {e}")
+
+        must = []
+
+        for key, value in filters.items():
+            must.append(models.FieldCondition(
+                key=key,
+                match=models.MatchValue(
+                    value=value,
+                ),
+            ))
+
+        try:
+            if len(must) > 0:
+                return self.qdrant_client.search(
+                    collection_name=collection,
+                    query_vector=result.data[0].embedding,
+                    query_filter=models.Filter(must=must),
+                    limit=limit
+                )
+            else:
+                return self.qdrant_client.search(
+                    collection_name=collection,
+                    query_vector=result.data[0].embedding,
+                    limit=limit
+                )
+        except Exception as e:
+            raise Exception(f"Error searching collection: {e}")

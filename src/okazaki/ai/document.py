@@ -23,25 +23,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .langchain import Client as LangchainClient
+from dataclasses import dataclass
 
 
-class Summarize:
+@dataclass
+class Document:
 
-    @staticmethod
-    def summarize(openai_api_key, text, model_name="gpt-4o-mini", temperature=0, callbacks=[]):
-        """
-        Summarize the given text using a language model.
-        """
-        chain = LangchainClient.create_chat_chain(
-            openai_api_key,
-            model_name,
-            temperature,
-            [
-                ("system", "You are a helpful assistant that summarizes text."),
-                ("user", f"Summarize the following text:\n{text}"),
-            ],
-            callbacks,
-        )
-
-        return chain.invoke({"text": text})
+    id: str
+    text: str
+    metadata: dict
