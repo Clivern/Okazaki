@@ -121,6 +121,7 @@ class Client:
                     collection_name=collection,
                     query_vector=result.data[0].embedding,
                     query_filter=models.Filter(must=must),
+                    with_payload=True,
                     limit=limit
                 )
             else:
