@@ -37,23 +37,18 @@ class Client:
         open_api_key,
         open_api_model="text-embedding-3-small"
     ):
-        try:
-            self.qdrant_client = QdrantClient(
-                url=qdrant_url,
-                api_key=qdrant_api_key,
-            )
-        except Exception as e:
-            raise Exception(f"Error connecting to Qdrant: {e}")
-
-        try:
-            self.open_api_client = OpenAI(api_key=open_api_key)
-        except Exception as e:
-            raise Exception(f"Error connecting to OpenAI: {e}")
-
+        self.qdrant_client = QdrantClient(
+            url=qdrant_url,
+            api_key=qdrant_api_key,
+        )
+        self.open_api_client = OpenAI(api_key=open_api_key)
         self.open_api_model = open_api_model
 
     def get_client(self):
         return self.qdrant_client
+
+    def close(self):
+        self.qdrant_client.close()
 
     def info(self):
         return self.qdrant_client.info()
