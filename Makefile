@@ -5,7 +5,7 @@ tox ?= tox
 
 help: Makefile
 	@echo
-	@echo " Choose a command run in Tent:"
+	@echo " Choose a command run in Osaka:"
 	@echo
 	@sed -n 's/^##//p' $< | column -t -s ':' |  sed -e 's/^/ /'
 	@echo
