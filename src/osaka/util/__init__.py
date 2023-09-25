@@ -20,25 +20,4 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import os
-import pytest
-
-from osaka.github.config import Config
-
-
-def test_config():
-    dt = Config.from_file("{}/specs/.test_case_1.yml".format(os.getcwd()))
-    dt.parse()
-
-    assert dt.data["a.b.c.d"] == 'hi'
-    assert dt.data["a.b.e.f"] == 'there'
-    assert dt.data["a.b.e.k"] == ['a', 'b', 'c']
-    assert dt.data["k.u.p"] == True
-    assert dt.rule[0]['name'] == "create kind/issue label"
-    assert dt.bot['acl']['groups'][0]['name'] == 'lead'
-    assert dt.workflow['first_contribution']['active_for'][0] == 'prs'
-
-def test_data_error():
-    with pytest.raises(FileNotFoundError):
-        dt = Config.from_file("{}/specs/.test_case_2.yml".format(os.getcwd()))
-        dt.parse()
+from .file_system import FileSystem

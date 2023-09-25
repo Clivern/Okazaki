@@ -1,20 +1,20 @@
-.. image:: https://img.shields.io/pypi/v/Tent.svg
+.. image:: https://img.shields.io/pypi/v/Osaka.svg
     :alt: PyPI-Server
-    :target: https://pypi.org/project/Tent/
-.. image:: https://github.com/Clivern/Tent/actions/workflows/ci.yml/badge.svg
+    :target: https://pypi.org/project/Osaka/
+.. image:: https://github.com/Clivern/Osaka/actions/workflows/ci.yml/badge.svg
     :alt: Build Status
-    :target: https://github.com/Clivern/Tent/actions/workflows/ci.yml
+    :target: https://github.com/Clivern/Osaka/actions/workflows/ci.yml
 
 |
 
 ====
-Tent
+Osaka
 ====
 
-    Github Automation Package in Python.
+    Github Automation Package in Python Powered By AI.
 
 
 Note
 ====
 
-This project is created and maintained for Hippo. see https://github.com/hippo-sh
+This project is created and maintained for Hornbeam.
