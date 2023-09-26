@@ -7,9 +7,9 @@
 
 |
 
-====
+======
 Okasa
-====
+======
 
     Github Automation Package in Python Powered By AI.
 
