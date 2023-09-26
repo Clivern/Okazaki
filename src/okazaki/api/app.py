@@ -23,5 +23,7 @@
 from .client import Client
 
 
-class Issue(Client):
-	pass
+class App(Client):
+
+	def __init__(self):
+		pass
