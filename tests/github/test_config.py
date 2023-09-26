@@ -23,7 +23,7 @@
 import os
 import pytest
 
-from okasa.github.config import Config
+from okazaki.github.config import Config
 
 
 def test_config():
