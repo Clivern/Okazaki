@@ -38,6 +38,7 @@ ci: test
 build:
 	$(tox) -e clean
 	$(tox) -e build
+	twine check dist/*.whl
 
 
 ## version: Get latest version
