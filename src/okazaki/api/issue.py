@@ -21,20 +21,5 @@
 # SOFTWARE.
 
 
-class FileSystem:
-    """FileSystem Class"""
-
-    @staticmethod
-    def read_file(cls, file_path):
-        """
-        Read file content with file path
-
-        Args:
-            file_path: The file path
-
-        Returns:
-            The file content
-        """
-        f = open(file_path, "r")
-
-        return f.read()
+class Issue():
+	pass
