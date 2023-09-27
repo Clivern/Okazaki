@@ -46,8 +46,13 @@ class App(Client):
         self.logger = Logger().get_logger(__name__) if logger is None else logger
         self.file_system = FileSystem() if file_system is None else file_system
 
-    def get_client(self):
+    def init(self):
         private_key = self.file_system.read_file(self._private_key_path)
+
+        self.logger.info("Create a new client for app with id {} and installation with id {}".format(
+            self._app_id,
+            self._installation_id
+        ))
 
         auth = Auth.AppAuth(self._app_id, private_key).get_installation_auth(
             self._installation_id,
@@ -56,4 +61,5 @@ class App(Client):
 
         self.client = Github(auth=auth)
 
+    def get_client(self):
         return self.client
