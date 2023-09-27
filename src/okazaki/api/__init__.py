@@ -21,3 +21,7 @@
 # SOFTWARE.
 
 from .client import Client
+from .app import App
+from .issue import Issue
+from .pull_request import PullRequest
+from .repository import Repository

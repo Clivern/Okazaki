@@ -28,10 +28,9 @@ import jwt
 import requests
 from dateutil import parser
 from http import HTTPStatus
-
 from okazaki.util import Logger
 from okazaki.util import FileSystem
-from okazaki.exception import GithubApiError
+from okazaki.exception import ApiError
 
 
 class Client():
@@ -48,7 +47,6 @@ class Client():
         )
 
     def is_token_expired(self, expire_at, drift_in_minutes=10):
-        """Check if token expired or not"""
         expire_at_dt = parser.isoparse(expire_at)
 
         now = datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(
@@ -69,19 +67,17 @@ class Client():
 
                 return self._to_obj(request.text)
             else:
-                msg = "Error, while calling github api {}, response: {}".format(
-                    url, request.text
-                )
+                msg = "Error, while calling github api {}, response: {}".format(url, request.text)
+
                 self.logger.error(msg)
 
-                raise GithubApiError(msg)
+                raise ApiError(msg)
         except Exception:
-            msg = "Error, while calling github api {}, response: {}".format(
-                url, request.text
-            )
+            msg = "Error, while calling github api {}, response: {}".format(url, request.text)
+
             self.logger.error(msg)
 
-            raise GithubApiError(msg)
+            raise ApiError(msg)
 
     def _post(self, url, headers={}, data=""):
         """Post Request"""
@@ -95,19 +91,17 @@ class Client():
 
                 return self._to_obj(request.text)
             else:
-                msg = "Error, while calling github api {}, response: {}".format(
-                    url, request.text
-                )
+                msg = "Error, while calling github api {}, response: {}".format(url, request.text)
+
                 self.logger.error(msg)
 
-                raise GithubApiError(msg)
+                raise ApiError(msg)
         except Exception:
-            msg = "Error, while calling github api {}, response: {}".format(
-                url, request.text
-            )
+            msg = "Error, while calling github api {}, response: {}".format(url, request.text)
+
             self.logger.error(msg)
 
-            raise GithubApiError(msg)
+            raise ApiError(msg)
 
     def _put(self, url, headers={}, data=""):
         """Put Request"""
@@ -121,19 +115,17 @@ class Client():
 
                 return self._to_obj(request.text)
             else:
-                msg = "Error, while calling github api {}, response: {}".format(
-                    url, request.text
-                )
+                msg = "Error, while calling github api {}, response: {}".format(url, request.text)
+
                 self.logger.error(msg)
 
-                raise GithubApiError(msg)
+                raise ApiError(msg)
         except Exception:
-            msg = "Error, while calling github api {}, response: {}".format(
-                url, request.text
-            )
+            msg = "Error, while calling github api {}, response: {}".format(url, request.text)
+
             self.logger.error(msg)
 
-            raise GithubApiError(msg)
+            raise ApiError(msg)
 
     def _patch(self, url, headers={}, data=""):
         """Patch Request"""
@@ -147,19 +139,17 @@ class Client():
 
                 return self._to_obj(request.text)
             else:
-                msg = "Error, while calling github api {}, response: {}".format(
-                    url, request.text
-                )
+                msg = "Error, while calling github api {}, response: {}".format(url, request.text)
+
                 self.logger.error(msg)
 
-                raise GithubApiError(msg)
+                raise ApiError(msg)
         except Exception:
-            msg = "Error, while calling github api {}, response: {}".format(
-                url, request.text
-            )
+            msg = "Error, while calling github api {}, response: {}".format(url, request.text)
+
             self.logger.error(msg)
 
-            raise GithubApiError(msg)
+            raise ApiError(msg)
 
     def _delete(self, url, headers={}):
         """Delete Request"""
@@ -175,20 +165,17 @@ class Client():
 
                 return self._to_obj("{}" if request.text == "" else request.text)
             else:
-                msg = "Error, while calling github api {}, response: {}".format(
-                    url, request.text
-                )
+                msg = "Error, while calling github api {}, response: {}".format(url, request.text)
+
                 self.logger.error(msg)
 
-                raise GithubApiError(msg)
+                raise ApiError(msg)
         except Exception:
-            msg = "Error, while calling github api {}, response: {}".format(
-                url, request.text
-            )
+            msg = "Error, while calling github api {}, response: {}".format(url, request.text)
 
             self.logger.error(msg)
 
-            raise GithubApiError(msg)
+            raise ApiError(msg)
 
     def _is_success(self, http_code):
         """Check if request succeeded"""

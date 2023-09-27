@@ -24,7 +24,6 @@
 class FileSystem:
     """FileSystem Class"""
 
-    @staticmethod
     def read_file(cls, file_path):
         """
         Read file content with file path

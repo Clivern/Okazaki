@@ -21,6 +21,6 @@
 # SOFTWARE.
 
 
-class GithubApiError(Exception):
-    """Github API Error"""
+class ApiError(Exception):
+    """API Error"""
     pass
