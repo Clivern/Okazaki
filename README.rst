@@ -11,4 +11,10 @@
 Okazaki
 ========
 
-    Github Automation Package in Python Powered By AI. This project is Read Only and a part of Hornbeam Core.
+    Github Automation Package in Python Powered By AI.
+
+
+Note
+====
+
+This project is Read Only and a part of Hornbeam Core.
