@@ -20,9 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .app import App
-from .issue import Issue
-from .client import Client
-from .pull_request import PullRequest
-from .repository import Repository
-from .statistics import Statistics
+
+class Statistics():
+
+    def __init__(self, app):
+        self._app = app
