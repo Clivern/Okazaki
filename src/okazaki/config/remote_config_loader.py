@@ -20,9 +20,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from .label_rule import LabelRule
-from .issue_rule import IssueRule
-from .pull_request_rule import PullRequestRule
-from .file_config_loader import FileConfigLoader
-from .remote_config_loader import RemoteConfigLoader
-from .config_parser import ConfigParser
+
+class RemoteConfigLoader():
+
+    def __init__(self, app, repo, branch):
+        self._app = app
+        self._repo = repo
+        self._branch = branch
+
+    def get_configs(self):
+        pass

@@ -31,6 +31,7 @@ class Issue:
         self._app = app
 
     def get_issue(self, repo, number):
+
         try:
             return self._get_repo(repo).get_issue(
                 number=number
@@ -47,6 +48,7 @@ class Issue:
         labels=GithubObject.NotSet,
         milestone=GithubObject.NotSet
     ):
+
         return self._get_repo(repo).create_issue(
             title=title,
             body=body,
@@ -153,6 +155,7 @@ class Issue:
             raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
 
     def create_milestone(self, repo, title, state='open', description=None, due_on=None):
+
         return self._get_repo(repo).create_milestone(
             title,
             state=state,
@@ -161,12 +164,15 @@ class Issue:
         )
 
     def get_milestones(self, repo, state='open'):
+
         return self._get_repo(repo).get_milestones(
             state=state
         )
 
     def search_issues(self, query):
+
         return self._app.get_client().search_issues(query)
 
     def _get_repo(self, repo):
+
         return self._app.get_client().get_repo(repo)
