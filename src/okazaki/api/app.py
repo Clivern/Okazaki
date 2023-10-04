@@ -22,7 +22,6 @@
 
 from github import Auth
 from github import Github
-
 from okazaki.util import Logger
 from okazaki.util import FileSystem
 from okazaki.api.client import Client

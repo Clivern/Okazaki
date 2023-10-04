@@ -21,7 +21,6 @@
 # SOFTWARE.
 
 from github import GithubObject
-
 from okazaki.exception import NotFound
 
 
@@ -45,7 +44,7 @@ class Label:
         self,
         repo,
         name,
-        color=GithubObject.NotSet,
+        color="eb4d4b",
         description=GithubObject.NotSet
     ):
         """Create a new label in the specified repository."""
@@ -59,8 +58,8 @@ class Label:
         self,
         repo,
         old_name,
-        new_name=GithubObject.NotSet,
-        new_color=GithubObject.NotSet,
+        new_name,
+        new_color="eb4d4b",
         new_description=GithubObject.NotSet
     ):
         """Update an existing label."""
