@@ -61,7 +61,6 @@ class ConfigParser:
         rules = self._config.get('rules', [])
 
         for rule in rules:
-            print(rule)
             if 'label' in rule:
                 label_rule = LabelRule(
                     name=rule['name'],
