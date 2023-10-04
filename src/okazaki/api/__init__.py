@@ -27,3 +27,4 @@ from .pull_request import PullRequest
 from .repository import Repository
 from .statistics import Statistics
 from .milestone import Milestone
+from .label import Label

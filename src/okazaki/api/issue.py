@@ -72,7 +72,7 @@ class Issue:
         if issue is not None:
             issue.edit(state='closed')
         else:
-            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
 
     def reopen_issue(self, repo, number):
 
@@ -81,7 +81,7 @@ class Issue:
         if issue is not None:
             issue.edit(state='open')
         else:
-            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
 
     def edit_issue(
         self,
@@ -106,7 +106,7 @@ class Issue:
                 state=state
             )
         else:
-            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
 
     def add_comment(self, repo, number, body):
 
@@ -115,7 +115,7 @@ class Issue:
         if issue is not None:
             return issue.create_comment(body)
         else:
-            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
 
     def get_comments(self, repo, number):
 
@@ -124,7 +124,7 @@ class Issue:
         if issue is not None:
             return issue.get_comments()
         else:
-            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
 
     def add_labels(self, repo, number, labels):
 
@@ -133,7 +133,7 @@ class Issue:
         if issue is not None:
             return issue.add_to_labels(*labels)
         else:
-            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
 
     def remove_label(self, repo, number, label):
 
@@ -142,7 +142,7 @@ class Issue:
         if issue is not None:
             return issue.remove_from_labels(label)
         else:
-            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
 
     def get_events(self, repo, number):
 
@@ -151,7 +151,7 @@ class Issue:
         if issue is not None:
             return issue.get_events()
         else:
-            raise NotFound("Repository {} Issue with number {} not found".format(repo, number))
+            raise NotFound(f"Repository '{repo}' Issue with number '{number}' not found")
 
     def create_milestone(self, repo, title, state='open', description=None, due_on=None):
 
