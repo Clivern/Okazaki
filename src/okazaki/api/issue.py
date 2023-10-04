@@ -31,7 +31,6 @@ class Issue:
         self._app = app
 
     def get_issue(self, repo, number):
-
         try:
             return self._get_repo(repo).get_issue(
                 number=number
