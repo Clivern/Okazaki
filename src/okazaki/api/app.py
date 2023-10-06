@@ -36,7 +36,7 @@ class App(Client):
         installation_id,
         token_permission,
         file_system=None,
-        logger=None
+        logger=None,
     ):
         super().__init__(file_system, logger)
         self._app_id = app_id
@@ -49,14 +49,14 @@ class App(Client):
     def init(self):
         private_key = self.file_system.read_file(self._private_key_path)
 
-        self.logger.info("Create a new client for app with id {} and installation with id {}".format(
-            self._app_id,
-            self._installation_id
-        ))
+        self.logger.info(
+            "Create a new client for app with id {} and installation with id {}".format(
+                self._app_id, self._installation_id
+            )
+        )
 
         auth = Auth.AppAuth(self._app_id, private_key).get_installation_auth(
-            self._installation_id,
-            self._token_permission
+            self._installation_id, self._token_permission
         )
 
         self.client = Github(auth=auth)

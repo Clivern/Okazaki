@@ -35,12 +35,7 @@ from okazaki.exception import ApiError
 
 class Client:
 
-    def __init__(
-        self,
-        file_system=None,
-        logger=None,
-        github_api="https://api.github.com"
-    ):
+    def __init__(self, file_system=None, logger=None, github_api="https://api.github.com"):
         self.github_api = github_api
         self.logger = Logger().get_logger(__name__) if logger is None else logger
         self.file_system = FileSystem() if file_system is None else file_system

@@ -35,9 +35,9 @@ class Summarize:
             0,
             [
                 ("system", "You are a helpful assistant that summarizes text."),
-                ("user", "Summarize the following text:\n\n{text}")
+                ("user", "Summarize the following text:\n{text}"),
             ],
-            callbacks
+            callbacks,
         )
 
         return chain.invoke({"text": text})
