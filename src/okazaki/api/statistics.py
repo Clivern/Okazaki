@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 
-class Statistics():
+class Statistics:
 
     def __init__(self, app):
         self._app = app

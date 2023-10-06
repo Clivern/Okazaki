@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 
-class PullRequest():
+class PullRequest:
 
     def __init__(self, app):
         self._app = app

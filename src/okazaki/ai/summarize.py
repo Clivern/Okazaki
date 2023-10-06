@@ -21,7 +21,5 @@
 # SOFTWARE.
 
 
-class Repository:
-
-    def __init__(self, app):
-        self._app = app
+class Summarize:
+	pass

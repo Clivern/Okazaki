@@ -33,7 +33,7 @@ from okazaki.util import FileSystem
 from okazaki.exception import ApiError
 
 
-class Client():
+class Client:
 
     def __init__(
         self,

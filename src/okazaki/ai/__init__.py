@@ -21,3 +21,5 @@
 # SOFTWARE.
 
 from .metrics import CallbackHandler
+from .client import Client
+from .summarize import Summarize

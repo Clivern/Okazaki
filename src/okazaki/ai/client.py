@@ -20,8 +20,39 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from langchain_openai import ChatOpenAI
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
 
-class Repository:
 
-    def __init__(self, app):
-        self._app = app
+class Client:
+
+    @staticmethod
+    def create_chat_chain(model_name="gpt-4o-mini", temperature=0, prompt_template=None, callbacks=[]):
+        """
+        Create a chain
+        """
+        prompt = ChatPromptTemplate.from_messages(prompt_template)
+
+        llm = ChatOpenAI(
+            model_name=model_name,
+            temperature=temperature,
+            callbacks=callbacks
+        )
+
+        chain = prompt | llm | StrOutputParser()
+
+        return chain
+
+
+if __name__ == "__main__":
+
+    chain = Client.create_chat_chain(
+        "gpt-4o-mini",
+        0,
+        [("user", "Tell me a {adjective} joke")]
+    )
+
+    result = chain.invoke("funny")
+
+    print(result)

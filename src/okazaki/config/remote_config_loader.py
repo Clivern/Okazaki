@@ -21,7 +21,7 @@
 # SOFTWARE.
 
 
-class RemoteConfigLoader():
+class RemoteConfigLoader:
 
     def __init__(self, app, repo, branch):
         self._app = app
