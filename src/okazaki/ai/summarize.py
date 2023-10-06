@@ -20,6 +20,24 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from .client import Client
+
 
 class Summarize:
-	pass
+
+    @staticmethod
+    def summarize(text, model_name="gpt-4o-mini", temperature=0, callbacks=[]):
+        """
+        Summarize the given text using a language model.
+        """
+        chain = Client.create_chat_chain(
+            "gpt-4o-mini",
+            0,
+            [
+                ("system", "You are a helpful assistant that summarizes text."),
+                ("user", "Summarize the following text:\n\n{text}")
+            ],
+            callbacks
+        )
+
+        return chain.invoke({"text": text})

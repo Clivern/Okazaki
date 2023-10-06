@@ -43,16 +43,3 @@ class Client:
         chain = prompt | llm | StrOutputParser()
 
         return chain
-
-
-if __name__ == "__main__":
-
-    chain = Client.create_chat_chain(
-        "gpt-4o-mini",
-        0,
-        [("user", "Tell me a {adjective} joke")]
-    )
-
-    result = chain.invoke("funny")
-
-    print(result)
