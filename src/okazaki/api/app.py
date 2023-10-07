@@ -29,6 +29,7 @@ from okazaki.util import Logger
 from okazaki.util import FileSystem
 from okazaki.api.client import Client
 
+
 class App(Client):
     """
     The `App` class is responsible for initializing a GitHub client using
@@ -39,9 +40,9 @@ class App(Client):
         _private_key_path (str): The path to the private key file for the GitHub App.
         _installation_id (str): The installation ID for the GitHub App.
         _token_permission (str): The token permission for the GitHub App.
-        logger (Logger): The logger instance for logging messages.
-        file_system (FileSystem): The file system instance for file operations.
-        client (Github): The GitHub client instance.
+        _logger (Logger): The logger instance for logging messages.
+        _file_system (FileSystem): The file system instance for file operations.
+        _client (Github): The GitHub client instance.
     """
 
     def __init__(
@@ -69,8 +70,8 @@ class App(Client):
         self._private_key_path = private_key_path
         self._installation_id = installation_id
         self._token_permission = token_permission
-        self.logger = Logger().get_logger(__name__) if logger is None else logger
-        self.file_system = FileSystem() if file_system is None else file_system
+        self._logger = Logger().get_logger(__name__) if logger is None else logger
+        self._file_system = FileSystem() if file_system is None else file_system
 
     def init(self):
         """
@@ -78,9 +79,9 @@ class App(Client):
         Reads the private key from the specified file path and creates an
         authenticated GitHub client.
         """
-        private_key = self.file_system.read_file(self._private_key_path)
+        private_key = self._file_system.read_file(self._private_key_path)
 
-        self.logger.info(
+        self._logger.info(
             "Create a new client for app with id {} and installation with id {}".format(
                 self._app_id, self._installation_id
             )
@@ -90,7 +91,7 @@ class App(Client):
             self._installation_id, self._token_permission
         )
 
-        self.client = Github(auth=auth)
+        self._client = Github(auth=auth)
 
     def get_client(self):
         """
@@ -99,7 +100,7 @@ class App(Client):
         Returns:
             Github: The GitHub client instance.
         """
-        return self.client
+        return self._client
 
     def get_logger(self):
         """
@@ -108,4 +109,4 @@ class App(Client):
         Returns:
             Logger: The logger instance.
         """
-        return self.logger
+        return self._logger
