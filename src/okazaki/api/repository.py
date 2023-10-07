@@ -25,3 +25,13 @@ class Repository:
 
     def __init__(self, app):
         self._app = app
+
+    def get_contents(self, repo, file_path):
+        try:
+            content = self._get_repo(repo).get_contents(file_path)
+        except Exception as e:
+            return None
+        return content.decoded_content.decode()
+
+    def _get_repo(self, repo):
+        return self._app.get_client().get_repo(repo)

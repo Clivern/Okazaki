@@ -63,3 +63,6 @@ class App(Client):
 
     def get_client(self):
         return self.client
+
+    def get_logger(self):
+        return self.logger

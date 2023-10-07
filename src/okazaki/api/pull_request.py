@@ -25,3 +25,37 @@ class PullRequest:
 
     def __init__(self, app):
         self._app = app
+
+    def get_default_branch(self, repo):
+        return self._get_repo(repo).default_branch
+
+    def create_branch(self, repo, source_branch, new_branch):
+        source_obj = self._get_repo(repo).get_branch(source_branch)
+
+        return self._get_repo(repo).create_git_ref(
+            ref=f'refs/heads/{new_branch}',
+            sha=source_obj.commit.sha
+        )
+
+    def delete_branch(self, repo, branch_name):
+        ref = self._get_repo(repo).get_git_ref(f"heads/{branch_name}")
+        ref.delete()
+
+    def create_commit(self, repo, branch, file_path, file_content, commit_message):
+        return self._get_repo(repo).create_file(
+            path=file_path,
+            message=commit_message,
+            content=file_content,
+            branch=branch
+        )
+
+    def open_pr(self, repo, title, body, base_branch, head_branch):
+        return self._get_repo(repo).create_pull(
+            title=title,
+            body=body,
+            head=head_branch,
+            base=base_branch
+        )
+
+    def _get_repo(self, repo):
+        return self._app.get_client().get_repo(repo)
