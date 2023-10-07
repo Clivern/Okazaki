@@ -27,16 +27,10 @@
 class Statistics:
     """
     The `Statistics` class is responsible for giving statistical data related to the given repository.
-
-    Attributes:
-        _app (App): An instance of the App class.
     """
 
     def __init__(self, app):
         """
         Initializes the Statistics class with the given application instance.
-
-        Args:
-            app (App): An instance of the App class.
         """
         self._app = app

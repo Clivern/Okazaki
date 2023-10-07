@@ -58,6 +58,7 @@ class LabelRule:
                 "title": self.title
             }
         }
+
         if self.state == 'present':
             result["label"]["description"] = self.description
             result["label"]["color"] = self.color
@@ -68,4 +69,5 @@ class LabelRule:
                 result["label"]["new_color"] = self.new_color
             if self.new_description:
                 result["label"]["new_description"] = self.new_description
+
         return result

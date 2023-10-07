@@ -34,11 +34,11 @@ class Summarize:
         Summarize the given text using a language model.
         """
         chain = Client.create_chat_chain(
-            "gpt-4o-mini",
-            0,
+            model_name,
+            temperature,
             [
                 ("system", "You are a helpful assistant that summarizes text."),
-                ("user", "Summarize the following text:\n{text}"),
+                ("user", f"Summarize the following text:\n{text}"),
             ],
             callbacks,
         )

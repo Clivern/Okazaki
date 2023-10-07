@@ -32,8 +32,14 @@ from .pull_request_rule import PullRequestRule
 
 
 class ConfigParser:
+    """
+    A class for parsing and processing configuration data.
+    """
 
     def __init__(self, config, values_attr="data", logger=None):
+        """
+        Initialize the ConfigParser.
+        """
         self._config = config
         self._values_attr = values_attr
         self._label_rules: List[LabelRule] = []
@@ -42,6 +48,9 @@ class ConfigParser:
         self._logger = Logger().get_logger(__name__) if logger is None else logger
 
     def _pipeline_set_data_item(self):
+        """
+        Process the configuration to replace data references.
+        """
         data = self._config.get(self._values_attr, {})
 
         def replace_data_references(obj):
@@ -61,6 +70,9 @@ class ConfigParser:
         self._config = replace_data_references(self._config)
 
     def _extract_label_rules(self):
+        """
+        Extract label rules from the configuration.
+        """
         rules = self._config.get('rules', [])
 
         for rule in rules:
@@ -79,12 +91,21 @@ class ConfigParser:
                 self._label_rules.append(label_rule)
 
     def _extract_issue_rules(self):
+        """
+        Extract issue rules from the configuration.
+        """
         pass
 
     def _extract_pull_request_rules(self):
+        """
+        Extract pull request rules from the configuration.
+        """
         pass
 
     def process_config(self):
+        """
+        Process the configuration by running all pipeline methods.
+        """
         pipelines = [
             self._pipeline_set_data_item,
             self._extract_label_rules,
@@ -97,16 +118,31 @@ class ConfigParser:
             pipeline()
 
     def get_processed_config(self):
+        """
+        Get the processed configuration.
+        """
         return self._config
 
     def print_processed_config(self):
+        """
+        Print the processed configuration in YAML format.
+        """
         print(yaml.dump(self._config, default_flow_style=False))
 
     def get_label_rules(self):
+        """
+        Get the extracted label rules.
+        """
         return self._label_rules
 
     def get_issue_rules(self):
+        """
+        Get the extracted issue rules.
+        """
         return self._issue_rules
 
     def get_pull_request_rules(self):
+        """
+        Get the extracted pull request rules.
+        """
         return self._pull_request_rules

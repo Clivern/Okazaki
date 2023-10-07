@@ -41,11 +41,6 @@ class Client:
     def __init__(self, file_system=None, logger=None, github_api="https://api.github.com"):
         """
         Initialize the Client.
-
-        Args:
-            file_system (FileSystem, optional): An instance of FileSystem. Defaults to None.
-            logger (Logger, optional): An instance of Logger. Defaults to None.
-            github_api (str, optional): The base URL for the GitHub API. Defaults to "https://api.github.com".
         """
         self.github_api = github_api
         self.logger = Logger().get_logger(__name__) if logger is None else logger
@@ -54,14 +49,6 @@ class Client:
     def fetch_access_token(self, private_key_path, app_id, installation_id):
         """
         Fetch an access token for a GitHub App installation.
-
-        Args:
-            private_key_path (str): Path to the private key file.
-            app_id (str): The GitHub App ID.
-            installation_id (str): The installation ID.
-
-        Returns:
-            dict: The response containing the access token.
         """
         return self._post(
             self._get_url("/app/installations/{}/access_tokens".format(installation_id)),
@@ -71,13 +58,6 @@ class Client:
     def is_token_expired(self, expire_at, drift_in_minutes=10):
         """
         Check if a token has expired.
-
-        Args:
-            expire_at (str): The expiration timestamp in ISO format.
-            drift_in_minutes (int, optional): Time drift allowance in minutes. Defaults to 10.
-
-        Returns:
-            bool: True if the token has expired, False otherwise.
         """
         expire_at_dt = parser.isoparse(expire_at)
 
@@ -88,16 +68,6 @@ class Client:
     def _get(self, url, headers={}):
         """
         Perform a GET request to the specified URL.
-
-        Args:
-            url (str): The URL to send the GET request to.
-            headers (dict, optional): Additional headers for the request. Defaults to {}.
-
-        Returns:
-            dict: The JSON response as a Python object.
-
-        Raises:
-            ApiError: If the request fails or returns a non-success status code.
         """
         try:
             self.logger.info("Perform a GET request to {}".format(url))
@@ -125,17 +95,6 @@ class Client:
     def _post(self, url, headers={}, data=""):
         """
         Perform a POST request to the specified URL.
-
-        Args:
-            url (str): The URL to send the POST request to.
-            headers (dict, optional): Additional headers for the request. Defaults to {}.
-            data (str, optional): The data to send in the request body. Defaults to "".
-
-        Returns:
-            dict: The JSON response as a Python object.
-
-        Raises:
-            ApiError: If the request fails or returns a non-success status code.
         """
         try:
             self.logger.info("Perform a POST request to {}".format(url))
@@ -163,17 +122,6 @@ class Client:
     def _put(self, url, headers={}, data=""):
         """
         Perform a PUT request to the specified URL.
-
-        Args:
-            url (str): The URL to send the PUT request to.
-            headers (dict, optional): Additional headers for the request. Defaults to {}.
-            data (str, optional): The data to send in the request body. Defaults to "".
-
-        Returns:
-            dict: The JSON response as a Python object.
-
-        Raises:
-            ApiError: If the request fails or returns a non-success status code.
         """
         try:
             self.logger.info("Perform a PUT request to {}".format(url))
@@ -201,17 +149,6 @@ class Client:
     def _patch(self, url, headers={}, data=""):
         """
         Perform a PATCH request to the specified URL.
-
-        Args:
-            url (str): The URL to send the PATCH request to.
-            headers (dict, optional): Additional headers for the request. Defaults to {}.
-            data (str, optional): The data to send in the request body. Defaults to "".
-
-        Returns:
-            dict: The JSON response as a Python object.
-
-        Raises:
-            ApiError: If the request fails or returns a non-success status code.
         """
         try:
             self.logger.info("Perform a PATCH request to {}".format(url))
@@ -239,16 +176,6 @@ class Client:
     def _delete(self, url, headers={}):
         """
         Perform a DELETE request to the specified URL.
-
-        Args:
-            url (str): The URL to send the DELETE request to.
-            headers (dict, optional): Additional headers for the request. Defaults to {}.
-
-        Returns:
-            dict: The JSON response as a Python object.
-
-        Raises:
-            ApiError: If the request fails or returns a non-success status code.
         """
         try:
             self.logger.info("Perform a DELETE request to {}".format(url))
@@ -276,60 +203,30 @@ class Client:
     def _is_success(self, http_code):
         """
         Check if the HTTP status code indicates a successful request.
-
-        Args:
-            http_code (int): The HTTP status code.
-
-        Returns:
-            bool: True if the status code indicates success, False otherwise.
         """
         return http_code >= HTTPStatus.OK and http_code < HTTPStatus.MULTIPLE_CHOICES
 
     def _to_obj(self, json_text):
         """
         Convert a JSON string to a Python object.
-
-        Args:
-            json_text (str): The JSON string to convert.
-
-        Returns:
-            dict: The JSON data as a Python object.
         """
         return json.loads(json_text)
 
     def _to_json(self, obj):
         """
         Convert a Python object to a JSON string.
-
-        Args:
-            obj: The Python object to convert.
-
-        Returns:
-            str: The JSON string representation of the object.
         """
         return json.dumps(obj)
 
     def _get_url(self, rel_url):
         """
         Get the full GitHub API URL for a relative URL.
-
-        Args:
-            rel_url (str): The relative URL.
-
-        Returns:
-            str: The full GitHub API URL.
         """
         return "{}{}".format(self.github_api, rel_url)
 
     def _get_headers(self, token):
         """
         Get the default headers for API requests, including authorization.
-
-        Args:
-            token (str): The authentication token.
-
-        Returns:
-            dict: The headers dictionary.
         """
         return {
             "Authorization": "Bearer {}".format(token),
@@ -339,13 +236,6 @@ class Client:
     def _get_jwt_token(self, private_key_path, app_id):
         """
         Generate a JWT token for GitHub App authentication.
-
-        Args:
-            private_key_path (str): Path to the private key file.
-            app_id (str): The GitHub App ID.
-
-        Returns:
-            str: The generated JWT token.
         """
         secret_key = self.file_system.read_file(private_key_path)
 

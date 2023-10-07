@@ -28,43 +28,23 @@ class PullRequest:
     """
     The PullRequest class provides methods to interact with GitHub repositories,
     specifically for operations related to branches and pull requests.
-
-    Attributes:
-        _app (App): An instance of the App class used to access the GitHub client.
     """
 
     def __init__(self, app):
         """
         Initializes the PullRequest class with the given application instance.
-
-        Args:
-            app (App): An instance of the App class that provides access to the GitHub client.
         """
         self._app = app
 
     def get_default_branch(self, repo):
         """
         Retrieves the default branch of a specified repository.
-
-        Args:
-            repo (str): The full name of the repository (e.g., "owner/repo").
-
-        Returns:
-            str: The name of the default branch.
         """
         return self._get_repo(repo).default_branch
 
     def create_branch(self, repo, source_branch, new_branch):
         """
         Creates a new branch in the specified repository.
-
-        Args:
-            repo (str): The full name of the repository.
-            source_branch (str): The name of the branch to base the new branch on.
-            new_branch (str): The name of the new branch to create.
-
-        Returns:
-            github.GitRef.GitRef: The newly created Git reference.
         """
         source_obj = self._get_repo(repo).get_branch(source_branch)
         return self._get_repo(repo).create_git_ref(
@@ -75,10 +55,6 @@ class PullRequest:
     def delete_branch(self, repo, branch_name):
         """
         Deletes a branch in the specified repository.
-
-        Args:
-            repo (str): The full name of the repository.
-            branch_name (str): The name of the branch to delete.
         """
         ref = self._get_repo(repo).get_git_ref(f"heads/{branch_name}")
         ref.delete()
@@ -86,16 +62,6 @@ class PullRequest:
     def create_commit(self, repo, branch, file_path, file_content, commit_message):
         """
         Creates a new commit in the specified repository and branch.
-
-        Args:
-            repo (str): The full name of the repository.
-            branch (str): The name of the branch to commit to.
-            file_path (str): The path of the file to commit.
-            file_content (str): The content of the file.
-            commit_message (str): The commit message.
-
-        Returns:
-            github.ContentFile.ContentFile: The newly created content file.
         """
         return self._get_repo(repo).create_file(
             path=file_path,
@@ -107,16 +73,6 @@ class PullRequest:
     def open_pr(self, repo, title, body, base_branch, head_branch):
         """
         Opens a new pull request in the specified repository.
-
-        Args:
-            repo (str): The full name of the repository.
-            title (str): The title of the pull request.
-            body (str): The body/description of the pull request.
-            base_branch (str): The name of the branch to merge into.
-            head_branch (str): The name of the branch containing the changes.
-
-        Returns:
-            github.PullRequest.PullRequest: The newly created pull request.
         """
         return self._get_repo(repo).create_pull(
             title=title,
@@ -128,11 +84,5 @@ class PullRequest:
     def _get_repo(self, repo):
         """
         Helper method to get a repository object from the GitHub client.
-
-        Args:
-            repo (str): The full name of the repository (e.g., "owner/repo").
-
-        Returns:
-            github.Repository.Repository: A GitHub repository object.
         """
         return self._app.get_client().get_repo(repo)

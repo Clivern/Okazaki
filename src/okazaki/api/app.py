@@ -34,15 +34,6 @@ class App(Client):
     """
     The `App` class is responsible for initializing a GitHub client using
     GitHub App authentication.
-
-    Attributes:
-        _app_id (str): The GitHub App ID.
-        _private_key_path (str): The path to the private key file for the GitHub App.
-        _installation_id (str): The installation ID for the GitHub App.
-        _token_permission (str): The token permission for the GitHub App.
-        _logger (Logger): The logger instance for logging messages.
-        _file_system (FileSystem): The file system instance for file operations.
-        _client (Github): The GitHub client instance.
     """
 
     def __init__(
@@ -56,14 +47,6 @@ class App(Client):
     ):
         """
         Initializes the App class with the given parameters.
-
-        Args:
-            app_id (str): The GitHub App ID.
-            private_key_path (str): The path to the private key file for the GitHub App.
-            installation_id (str): The installation ID for the GitHub App.
-            token_permission (str): The token permission for the GitHub App.
-            file_system (FileSystem, optional): The file system instance for file operations. Defaults to None.
-            logger (Logger, optional): The logger instance for logging messages. Defaults to None.
         """
         super().__init__(file_system, logger)
         self._app_id = app_id
@@ -96,17 +79,11 @@ class App(Client):
     def get_client(self):
         """
         Returns the initialized GitHub client.
-
-        Returns:
-            Github: The GitHub client instance.
         """
         return self._client
 
     def get_logger(self):
         """
         Returns the logger instance.
-
-        Returns:
-            Logger: The logger instance.
         """
         return self._logger

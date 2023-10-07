@@ -29,30 +29,17 @@ import yaml
 class FileConfigLoader:
     """
     The FileConfigLoader class provides methods to load configuration data from a YAML file.
-
-    Attributes:
-        _file_path (str): The path to the YAML configuration file.
     """
 
     def __init__(self, file_path):
         """
         Initializes the FileConfigLoader class with the given file path.
-
-        Args:
-            file_path (str): The path to the YAML configuration file.
         """
         self._file_path = file_path
 
     def get_configs(self):
         """
         Reads and parses the YAML configuration file.
-
-        Returns:
-            dict: The parsed configuration data.
-
-        Raises:
-            yaml.YAMLError: If there is an error parsing the YAML file.
-            FileNotFoundError: If the specified file does not exist.
         """
         with open(self._file_path, 'r') as file:
             return yaml.safe_load(file)

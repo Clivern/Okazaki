@@ -27,22 +27,12 @@
 class FileSystem:
     """
     The FileSystem class provides utility methods for file operations.
-
-    This class currently offers a method to read the contents of a file.
     """
 
     @classmethod
     def read_file(cls, file_path):
         """
         Reads the contents of a file.
-
-        This method opens the specified file in read mode and returns its entire contents as a string.
-
-        Args:
-            file_path (str): The path to the file to be read.
-
-        Returns:
-            str: The contents of the file as a string.
         """
         with open(file_path, "r") as f:
             return f.read()

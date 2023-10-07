@@ -33,7 +33,7 @@ class Client:
     @staticmethod
     def create_chat_chain(model_name="gpt-4o-mini", temperature=0, prompt_template=None, callbacks=[]):
         """
-        Create a chain
+        Create a chat chain using the specified language model and parameters.
         """
         prompt = ChatPromptTemplate.from_messages(prompt_template)
 

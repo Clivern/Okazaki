@@ -30,42 +30,23 @@ from okazaki.exception import NotFound
 class Label:
     """
     The Label class provides methods to interact with GitHub labels.
-
-    Attributes:
-        _app (App): An instance of the App class used to access the GitHub client.
     """
 
     def __init__(self, app):
         """
         Initializes the Label class with the given application instance.
-
-        Args:
-            app (App): An instance of the App class that provides access to the GitHub client.
         """
         self._app = app
 
     def get_labels(self, repo):
         """
         List all labels in the specified repository.
-
-        Args:
-            repo (str): The full name of the repository (e.g., "owner/repo").
-
-        Returns:
-            github.PaginatedList.PaginatedList: A paginated list of label objects.
         """
         return self._get_repo(repo).get_labels()
 
     def get_label(self, repo, name):
         """
         Get a specific label by name.
-
-        Args:
-            repo (str): The full name of the repository (e.g., "owner/repo").
-            name (str): The name of the label to retrieve.
-
-        Returns:
-            github.Label.Label: The label object if found, None otherwise.
         """
         try:
             return self._get_repo(repo).get_label(name)
@@ -75,15 +56,6 @@ class Label:
     def create_label(self, repo, name, color="eb4d4b", description=GithubObject.NotSet):
         """
         Create a new label in the specified repository.
-
-        Args:
-            repo (str): The full name of the repository (e.g., "owner/repo").
-            name (str): The name of the new label.
-            color (str, optional): The color of the label in hex format. Defaults to "eb4d4b".
-            description (str, optional): The description of the label. Defaults to GithubObject.NotSet.
-
-        Returns:
-            github.Label.Label: The newly created label object.
         """
         return self._get_repo(repo).create_label(
             name=name,
@@ -94,16 +66,6 @@ class Label:
     def update_label(self, repo, old_name, new_name, new_color="eb4d4b", new_description=GithubObject.NotSet):
         """
         Update an existing label.
-
-        Args:
-            repo (str): The full name of the repository (e.g., "owner/repo").
-            old_name (str): The current name of the label.
-            new_name (str): The new name for the label.
-            new_color (str, optional): The new color for the label in hex format. Defaults to "eb4d4b".
-            new_description (str, optional): The new description for the label. Defaults to GithubObject.NotSet.
-
-        Raises:
-            NotFound: If the label with old_name is not found in the repository.
         """
         label = self.get_label(repo, old_name)
         if label is not None:
@@ -114,13 +76,6 @@ class Label:
     def delete_label(self, repo, name):
         """
         Delete a label from the specified repository.
-
-        Args:
-            repo (str): The full name of the repository (e.g., "owner/repo").
-            name (str): The name of the label to delete.
-
-        Raises:
-            NotFound: If the label is not found in the repository.
         """
         label = self.get_label(repo, name)
         if label is not None:
@@ -131,12 +86,6 @@ class Label:
     def _get_repo(self, repo):
         """
         Helper method to get a repository object from the GitHub client.
-
-        Args:
-            repo (str): The full name of the repository (e.g., "owner/repo").
-
-        Returns:
-            github.Repository.Repository: A GitHub repository object.
         """
         return self._app.get_client().get_repo(repo)
 
