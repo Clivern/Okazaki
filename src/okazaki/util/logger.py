@@ -2,6 +2,9 @@
 #
 # Copyright (c) 2022 Clivern
 #
+# This software is licensed under the MIT License. The full text of the license
+# is provided below.
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -24,11 +27,30 @@ import logging
 
 
 class Logger:
+    """
+    The Logger class provides a centralized way to manage and retrieve logger instances.
+
+    Attributes:
+        loggers (dict): A class-level dictionary to store logger instances, keyed by name.
+    """
 
     loggers = {}
 
     def get_logger(self, name=__name__):
+        """
+        Retrieves or creates a logger instance for the given name.
 
+        Args:
+            name (str, optional): The name of the logger. Defaults to the name of the
+                                  module where this method is called (__name__).
+
+        Returns:
+            logging.Logger: A logger instance corresponding to the given name.
+
+        Example:
+            >>> logger = Logger().get_logger()
+            >>> logger.info("This is an info message")
+        """
         if name in self.loggers:
             return self.loggers[name]
 

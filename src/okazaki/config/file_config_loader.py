@@ -2,6 +2,9 @@
 #
 # Copyright (c) 2022 Clivern
 #
+# This software is licensed under the MIT License. The full text of the license
+# is provided below.
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -24,10 +27,32 @@ import yaml
 
 
 class FileConfigLoader:
+    """
+    The FileConfigLoader class provides methods to load configuration data from a YAML file.
+
+    Attributes:
+        _file_path (str): The path to the YAML configuration file.
+    """
 
     def __init__(self, file_path):
+        """
+        Initializes the FileConfigLoader class with the given file path.
+
+        Args:
+            file_path (str): The path to the YAML configuration file.
+        """
         self._file_path = file_path
 
     def get_configs(self):
+        """
+        Reads and parses the YAML configuration file.
+
+        Returns:
+            dict: The parsed configuration data.
+
+        Raises:
+            yaml.YAMLError: If there is an error parsing the YAML file.
+            FileNotFoundError: If the specified file does not exist.
+        """
         with open(self._file_path, 'r') as file:
             return yaml.safe_load(file)

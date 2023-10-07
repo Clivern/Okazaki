@@ -2,6 +2,9 @@
 #
 # Copyright (c) 2022 Clivern
 #
+# This software is licensed under the MIT License. The full text of the license
+# is provided below.
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -22,9 +25,24 @@
 
 
 class FileSystem:
+    """
+    The FileSystem class provides utility methods for file operations.
 
+    This class currently offers a method to read the contents of a file.
+    """
+
+    @classmethod
     def read_file(cls, file_path):
+        """
+        Reads the contents of a file.
 
-        f = open(file_path, "r")
+        This method opens the specified file in read mode and returns its entire contents as a string.
 
-        return f.read()
+        Args:
+            file_path (str): The path to the file to be read.
+
+        Returns:
+            str: The contents of the file as a string.
+        """
+        with open(file_path, "r") as f:
+            return f.read()
